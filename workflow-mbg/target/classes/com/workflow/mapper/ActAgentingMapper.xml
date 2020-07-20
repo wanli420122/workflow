@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.workflow.mapper.ActAgentingMapper">
+  <resultMap id="BaseResultMap" type="com.workflow.model.ActAgenting">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="taskid" jdbcType="VARCHAR" property="taskid" />
+    <result column="useid" jdbcType="VARCHAR" property="useid" />
+    <result column="agentingstatus" jdbcType="INTEGER" property="agentingstatus" />
+    <result column="agentingsign" jdbcType="INTEGER" property="agentingsign" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, taskid, useid, agentingstatus, agentingsign, starttime, endtime
+  </sql>
+  <select id="selectByExample" parameterType="com.workflow.model.ActAgentingExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from act_agenting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from act_agenting
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from act_agenting
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.workflow.model.ActAgentingExample">
+    delete from act_agenting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.workflow.model.ActAgenting">
+    insert into act_agenting (id, taskid, useid, 
+      agentingstatus, agentingsign, starttime, 
+      endtime)
+    values (#{id,jdbcType=VARCHAR}, #{taskid,jdbcType=VARCHAR}, #{useid,jdbcType=VARCHAR}, 
+      #{agentingstatus,jdbcType=INTEGER}, #{agentingsign,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.workflow.model.ActAgenting">
+    insert into act_agenting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="taskid != null">
+        taskid,
+      </if>
+      <if test="useid != null">
+        useid,
+      </if>
+      <if test="agentingstatus != null">
+        agentingstatus,
+      </if>
+      <if test="agentingsign != null">
+        agentingsign,
+      </if>
+      <if test="starttime != null">
+        starttime,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="taskid != null">
+        #{taskid,jdbcType=VARCHAR},
+      </if>
+      <if test="useid != null">
+        #{useid,jdbcType=VARCHAR},
+      </if>
+      <if test="agentingstatus != null">
+        #{agentingstatus,jdbcType=INTEGER},
+      </if>
+      <if test="agentingsign != null">
+        #{agentingsign,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.workflow.model.ActAgentingExample" resultType="java.lang.Long">
+    select count(*) from act_agenting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update act_agenting
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskid != null">
+        taskid = #{record.taskid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useid != null">
+        useid = #{record.useid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentingstatus != null">
+        agentingstatus = #{record.agentingstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.agentingsign != null">
+        agentingsign = #{record.agentingsign,jdbcType=INTEGER},
+      </if>
+      <if test="record.starttime != null">
+        starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null">
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update act_agenting
+    set id = #{record.id,jdbcType=VARCHAR},
+      taskid = #{record.taskid,jdbcType=VARCHAR},
+      useid = #{record.useid,jdbcType=VARCHAR},
+      agentingstatus = #{record.agentingstatus,jdbcType=INTEGER},
+      agentingsign = #{record.agentingsign,jdbcType=INTEGER},
+      starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.workflow.model.ActAgenting">
+    update act_agenting
+    <set>
+      <if test="taskid != null">
+        taskid = #{taskid,jdbcType=VARCHAR},
+      </if>
+      <if test="useid != null">
+        useid = #{useid,jdbcType=VARCHAR},
+      </if>
+      <if test="agentingstatus != null">
+        agentingstatus = #{agentingstatus,jdbcType=INTEGER},
+      </if>
+      <if test="agentingsign != null">
+        agentingsign = #{agentingsign,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null">
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActAgenting">
+    update act_agenting
+    set taskid = #{taskid,jdbcType=VARCHAR},
+      useid = #{useid,jdbcType=VARCHAR},
+      agentingstatus = #{agentingstatus,jdbcType=INTEGER},
+      agentingsign = #{agentingsign,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.workflow.mapper.ActDeploymentdetialPropMapper">
+  <resultMap id="BaseResultMap" type="com.workflow.model.ActDeploymentdetialProp">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="nodeid" jdbcType="VARCHAR" property="nodeid" />
+    <result column="organizationid" jdbcType="VARCHAR" property="organizationid" />
+    <result column="roleid" jdbcType="VARCHAR" property="roleid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="conditionpress" jdbcType="VARCHAR" property="conditionpress" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, nodeid, organizationid, roleid, userid, conditionpress
+  </sql>
+  <select id="selectByExample" parameterType="com.workflow.model.ActDeploymentdetialPropExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from act_deploymentdetial_prop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from act_deploymentdetial_prop
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from act_deploymentdetial_prop
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.workflow.model.ActDeploymentdetialPropExample">
+    delete from act_deploymentdetial_prop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.workflow.model.ActDeploymentdetialProp">
+    insert into act_deploymentdetial_prop (id, nodeid, organizationid, 
+      roleid, userid, conditionpress
+      )
+    values (#{id,jdbcType=VARCHAR}, #{nodeid,jdbcType=VARCHAR}, #{organizationid,jdbcType=VARCHAR}, 
+      #{roleid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{conditionpress,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.workflow.model.ActDeploymentdetialProp">
+    insert into act_deploymentdetial_prop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="nodeid != null">
+        nodeid,
+      </if>
+      <if test="organizationid != null">
+        organizationid,
+      </if>
+      <if test="roleid != null">
+        roleid,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="conditionpress != null">
+        conditionpress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeid != null">
+        #{nodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationid != null">
+        #{organizationid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null">
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionpress != null">
+        #{conditionpress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.workflow.model.ActDeploymentdetialPropExample" resultType="java.lang.Long">
+    select count(*) from act_deploymentdetial_prop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update act_deploymentdetial_prop
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nodeid != null">
+        nodeid = #{record.nodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationid != null">
+        organizationid = #{record.organizationid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleid != null">
+        roleid = #{record.roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userid = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.conditionpress != null">
+        conditionpress = #{record.conditionpress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update act_deploymentdetial_prop
+    set id = #{record.id,jdbcType=VARCHAR},
+      nodeid = #{record.nodeid,jdbcType=VARCHAR},
+      organizationid = #{record.organizationid,jdbcType=VARCHAR},
+      roleid = #{record.roleid,jdbcType=VARCHAR},
+      userid = #{record.userid,jdbcType=VARCHAR},
+      conditionpress = #{record.conditionpress,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.workflow.model.ActDeploymentdetialProp">
+    update act_deploymentdetial_prop
+    <set>
+      <if test="nodeid != null">
+        nodeid = #{nodeid,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationid != null">
+        organizationid = #{organizationid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null">
+        roleid = #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionpress != null">
+        conditionpress = #{conditionpress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActDeploymentdetialProp">
+    update act_deploymentdetial_prop
+    set nodeid = #{nodeid,jdbcType=VARCHAR},
+      organizationid = #{organizationid,jdbcType=VARCHAR},
+      roleid = #{roleid,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      conditionpress = #{conditionpress,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.workflow.mapper.ActExecutionMapper">
+  <resultMap id="BaseResultMap" type="com.workflow.model.ActExecution">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="deploymentid" jdbcType="VARCHAR" property="deploymentid" />
+    <result column="formid" jdbcType="VARCHAR" property="formid" />
+    <result column="multiid" jdbcType="VARCHAR" property="multiid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, deploymentid, formid, multiid, userid, status, starttime, endtime
+  </sql>
+  <select id="selectByExample" parameterType="com.workflow.model.ActExecutionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from act_execution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from act_execution
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from act_execution
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.workflow.model.ActExecutionExample">
+    delete from act_execution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.workflow.model.ActExecution">
+    insert into act_execution (id, deploymentid, formid, 
+      multiid, userid, status, 
+      starttime, endtime)
+    values (#{id,jdbcType=VARCHAR}, #{deploymentid,jdbcType=VARCHAR}, #{formid,jdbcType=VARCHAR}, 
+      #{multiid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.workflow.model.ActExecution">
+    insert into act_execution
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deploymentid != null">
+        deploymentid,
+      </if>
+      <if test="formid != null">
+        formid,
+      </if>
+      <if test="multiid != null">
+        multiid,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="starttime != null">
+        starttime,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deploymentid != null">
+        #{deploymentid,jdbcType=VARCHAR},
+      </if>
+      <if test="formid != null">
+        #{formid,jdbcType=VARCHAR},
+      </if>
+      <if test="multiid != null">
+        #{multiid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.workflow.model.ActExecutionExample" resultType="java.lang.Long">
+    select count(*) from act_execution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update act_execution
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deploymentid != null">
+        deploymentid = #{record.deploymentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formid != null">
+        formid = #{record.formid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.multiid != null">
+        multiid = #{record.multiid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userid = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.starttime != null">
+        starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null">
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update act_execution
+    set id = #{record.id,jdbcType=VARCHAR},
+      deploymentid = #{record.deploymentid,jdbcType=VARCHAR},
+      formid = #{record.formid,jdbcType=VARCHAR},
+      multiid = #{record.multiid,jdbcType=VARCHAR},
+      userid = #{record.userid,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.workflow.model.ActExecution">
+    update act_execution
+    <set>
+      <if test="deploymentid != null">
+        deploymentid = #{deploymentid,jdbcType=VARCHAR},
+      </if>
+      <if test="formid != null">
+        formid = #{formid,jdbcType=VARCHAR},
+      </if>
+      <if test="multiid != null">
+        multiid = #{multiid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null">
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActExecution">
+    update act_execution
+    set deploymentid = #{deploymentid,jdbcType=VARCHAR},
+      formid = #{formid,jdbcType=VARCHAR},
+      multiid = #{multiid,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
