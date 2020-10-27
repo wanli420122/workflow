@@ -1,132 +1,68 @@
-{
-  "pkId": "sid-start-node",
-  "nodeName": "发起人",
-  "type": 0,
-  "priorityLevel": "",
-  "settype": "",
-  "selectMode": "",
-  "selectRange": "",
-  "examineRoleId": "",
-  "directorLevel": "",
-  "replaceByUp": "",
-  "examineMode": "",
-  "noHanderAction": "",
-  "examineEndType": "",
-  "examineEndRoleId": "",
-  "examineEndDirectorLevel": "",
-  "ccSelfSelectFlag": "",
-  "conditionList": [],
-  "nodeUserList": [],
-  "childNode": {
-    "nodeName": "审核人",
-    "error": false,
-    "type": 1,
-    "settype": 2,
-    "selectMode": 0,
-    "selectRange": 0,
-    "directorLevel": 1,
-    "replaceByUp": 0,
-    "examineMode": 1,
-    "noHanderAction": 2,
-    "examineEndDirectorLevel": 0,
-    "childNode": {
-      "nodeName": "路由",
-      "type": 4,
+{"data":{
+  "workFlowVersionId": "",    //工作流版本号
+  "workFlowName": "合同审批",   //工作流名称
+  "nodeConfig": {             //节点总明细配置信息
+    "nodeIndex": 1,           //节点序号
+    "nodeCode": "start",      //节点唯一编号
+    "nodeName": "发起人",      //节点名称
+    "type": 0,                //节点类型 0->发起人，1->审批，2->抄送，3->条件
+    "nodeUserList": "111",       //节点办理人(人员id/组织结构id/角色id)
+    "childNode": {            //子节点
+      "nodeIndex": 2,
+      "nodeCode": "node1",
+      "nodeName": "审核人1",
+      "type": 1,
+      "nodeUserList": "111",
       "childNode": {
-        "nodeName": "审核人",
-        "error": false,
-        "type": 1,
-        "settype": 5,
-        "selectMode": 0,
-        "selectRange": 0,
-        "directorLevel": 1,
-        "replaceByUp": 0,
-        "examineMode": 1,
-        "noHanderAction": 2,
-        "examineEndDirectorLevel": 0,
-        "childNode": null,
-        "nodeUserList": []
-      },
-      "conditionNodes": [
-        {
+        "nodeIndex": 3,
+        "nodeCode": "copy1",
+        "nodeName": "抄送人1",
+        "type": 2,
+        "nodeUserList": "111",
+        "childNode": [{
+          "nodeIndex": 4,
+          "nodeCode": "condition1",
           "nodeName": "条件1",
-          "error": false,
           "type": 3,
-          "priorityLevel": 1,
-          "conditionList": [
-            {
-              "type": 1,
-              "columnId": 0,
-              "showName": "发起人"
-            }
-          ],
-          "nodeUserList": [
-            {
-              "type": 3,
-              "targetId": "150",
-              "name": "人力行政部"
-            }
-          ],
+          "formId": "11111", //表单id
+          "conditionNodes":"a==1",//关联表单条件表单式
           "childNode": {
-            "nodeName": "审核人",
-            "error": false,
+            "nodeIndex": 2,
+            "nodeCode": "node2",
+            "nodeName": "审核人2",
             "type": 1,
-            "settype": 1,
-            "selectMode": 0,
-            "selectRange": 0,
-            "directorLevel": 1,
-            "replaceByUp": 0,
-            "examineMode": 1,
-            "noHanderAction": 1,
-            "examineEndDirectorLevel": 0,
-            "childNode": null,
-            "nodeUserList": [
-              {
+            "nodeUserList": "111",
+            "childNode":{
+                "nodeIndex": 2,
+                "nodeCode": "node4",
+                "nodeName": "审核人4",
                 "type": 1,
-                "targetId": "53128111",
-                "name": "亚nan"
-              }
-            ]
+                "nodeUserList": "111"
+            }
           }
-        },
-        {
+        },{
+          "nodeIndex": 5,
           "nodeName": "条件2",
+          "nodeName": "condition2",
           "type": 3,
-          "priorityLevel": 2,
-          "conditionList": [
-            {
-              "type": 1,
-              "columnId": 0,
-              "showName": "发起人"
-            }
-          ],
-          "nodeUserList": [
-            {
-              "type": 3,
-              "targetId": "324",
-              "name": "法务部"
-            }
-          ],
+          "formId": "22222", //表单id
+          "conditionNodes":"b==1",//关联表单条件表单式
           "childNode": {
-            "nodeName": "审核人",
-            "error": false,
-            "type": 1,
-            "settype": 2,
-            "selectMode": 0,
-            "selectRange": 0,
-            "directorLevel": 1,
-            "replaceByUp": 0,
-            "examineMode": 1,
-            "noHanderAction": 2,
-            "examineEndDirectorLevel": 0,
-            "childNode": null,
-            "nodeUserList": []
-          },
-          "error": false
-        }
-      ]
-    },
-    "nodeUserList": []
-  },
-  "conditionNodes": []
-}
+              "nodeIndex": 2,
+              "nodeName": "审核人3",
+              "nodeCode": "node3",
+              "type": 1,
+              "nodeUserList": "111",
+              "childNode":{
+                  "nodeIndex": 2,
+                  "nodeCode": "node4",
+                  "nodeName": "审核人4",
+                  "type": 1,
+                  "nodeUserList": "111"
+                }
+              }
+          }]
+      }
+    }
+  }
+}}

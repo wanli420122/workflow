@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.workflow.mapper.ActDeploymentdetialPropMapper">
   <resultMap id="BaseResultMap" type="com.workflow.model.ActDeploymentdetialProp">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="nodeid" jdbcType="VARCHAR" property="nodeid" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="nodeid" jdbcType="BIGINT" property="nodeid" />
     <result column="organizationid" jdbcType="VARCHAR" property="organizationid" />
     <result column="roleid" jdbcType="VARCHAR" property="roleid" />
     <result column="userid" jdbcType="VARCHAR" property="userid" />
@@ -84,15 +84,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from act_deploymentdetial_prop
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from act_deploymentdetial_prop
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.workflow.model.ActDeploymentdetialPropExample">
     delete from act_deploymentdetial_prop
@@ -104,7 +104,7 @@
     insert into act_deploymentdetial_prop (id, nodeid, organizationid, 
       roleid, userid, conditionpress
       )
-    values (#{id,jdbcType=VARCHAR}, #{nodeid,jdbcType=VARCHAR}, #{organizationid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{nodeid,jdbcType=BIGINT}, #{organizationid,jdbcType=VARCHAR}, 
       #{roleid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{conditionpress,jdbcType=VARCHAR}
       )
   </insert>
@@ -132,10 +132,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="nodeid != null">
-        #{nodeid,jdbcType=VARCHAR},
+        #{nodeid,jdbcType=BIGINT},
       </if>
       <if test="organizationid != null">
         #{organizationid,jdbcType=VARCHAR},
@@ -161,10 +161,10 @@
     update act_deploymentdetial_prop
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.nodeid != null">
-        nodeid = #{record.nodeid,jdbcType=VARCHAR},
+        nodeid = #{record.nodeid,jdbcType=BIGINT},
       </if>
       <if test="record.organizationid != null">
         organizationid = #{record.organizationid,jdbcType=VARCHAR},
@@ -185,8 +185,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update act_deploymentdetial_prop
-    set id = #{record.id,jdbcType=VARCHAR},
-      nodeid = #{record.nodeid,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
+      nodeid = #{record.nodeid,jdbcType=BIGINT},
       organizationid = #{record.organizationid,jdbcType=VARCHAR},
       roleid = #{record.roleid,jdbcType=VARCHAR},
       userid = #{record.userid,jdbcType=VARCHAR},
@@ -199,7 +199,7 @@
     update act_deploymentdetial_prop
     <set>
       <if test="nodeid != null">
-        nodeid = #{nodeid,jdbcType=VARCHAR},
+        nodeid = #{nodeid,jdbcType=BIGINT},
       </if>
       <if test="organizationid != null">
         organizationid = #{organizationid,jdbcType=VARCHAR},
@@ -214,15 +214,15 @@
         conditionpress = #{conditionpress,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActDeploymentdetialProp">
     update act_deploymentdetial_prop
-    set nodeid = #{nodeid,jdbcType=VARCHAR},
+    set nodeid = #{nodeid,jdbcType=BIGINT},
       organizationid = #{organizationid,jdbcType=VARCHAR},
       roleid = #{roleid,jdbcType=VARCHAR},
       userid = #{userid,jdbcType=VARCHAR},
       conditionpress = #{conditionpress,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

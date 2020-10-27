@@ -10,7 +10,7 @@ public interface ActAgentingMapper {
 
     int deleteByExample(ActAgentingExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(ActAgenting record);
 
@@ -18,7 +18,7 @@ public interface ActAgentingMapper {
 
     List<ActAgenting> selectByExample(ActAgentingExample example);
 
-    ActAgenting selectByPrimaryKey(String id);
+    ActAgenting selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") ActAgenting record, @Param("example") ActAgentingExample example);
 

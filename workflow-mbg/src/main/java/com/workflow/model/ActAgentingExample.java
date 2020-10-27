@@ -115,62 +115,52 @@ public class ActAgentingExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(String value) {
+        public Criteria andIdEqualTo(Long value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(String value) {
+        public Criteria andIdNotEqualTo(Long value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(String value) {
+        public Criteria andIdGreaterThan(Long value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(String value) {
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(String value) {
+        public Criteria andIdLessThan(Long value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(String value) {
+        public Criteria andIdLessThanOrEqualTo(Long value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLike(String value) {
-            addCriterion("id like", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotLike(String value) {
-            addCriterion("id not like", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIn(List<String> values) {
+        public Criteria andIdIn(List<Long> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<String> values) {
+        public Criteria andIdNotIn(List<Long> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(String value1, String value2) {
+        public Criteria andIdBetween(Long value1, Long value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(String value1, String value2) {
+        public Criteria andIdNotBetween(Long value1, Long value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -185,62 +175,52 @@ public class ActAgentingExample {
             return (Criteria) this;
         }
 
-        public Criteria andTaskidEqualTo(String value) {
+        public Criteria andTaskidEqualTo(Long value) {
             addCriterion("taskid =", value, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidNotEqualTo(String value) {
+        public Criteria andTaskidNotEqualTo(Long value) {
             addCriterion("taskid <>", value, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidGreaterThan(String value) {
+        public Criteria andTaskidGreaterThan(Long value) {
             addCriterion("taskid >", value, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidGreaterThanOrEqualTo(String value) {
+        public Criteria andTaskidGreaterThanOrEqualTo(Long value) {
             addCriterion("taskid >=", value, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidLessThan(String value) {
+        public Criteria andTaskidLessThan(Long value) {
             addCriterion("taskid <", value, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidLessThanOrEqualTo(String value) {
+        public Criteria andTaskidLessThanOrEqualTo(Long value) {
             addCriterion("taskid <=", value, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidLike(String value) {
-            addCriterion("taskid like", value, "taskid");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskidNotLike(String value) {
-            addCriterion("taskid not like", value, "taskid");
-            return (Criteria) this;
-        }
-
-        public Criteria andTaskidIn(List<String> values) {
+        public Criteria andTaskidIn(List<Long> values) {
             addCriterion("taskid in", values, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidNotIn(List<String> values) {
+        public Criteria andTaskidNotIn(List<Long> values) {
             addCriterion("taskid not in", values, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidBetween(String value1, String value2) {
+        public Criteria andTaskidBetween(Long value1, Long value2) {
             addCriterion("taskid between", value1, value2, "taskid");
             return (Criteria) this;
         }
 
-        public Criteria andTaskidNotBetween(String value1, String value2) {
+        public Criteria andTaskidNotBetween(Long value1, Long value2) {
             addCriterion("taskid not between", value1, value2, "taskid");
             return (Criteria) this;
         }
@@ -552,6 +532,66 @@ public class ActAgentingExample {
 
         public Criteria andEndtimeNotBetween(Date value1, Date value2) {
             addCriterion("endtime not between", value1, value2, "endtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidIsNull() {
+            addCriterion("nownodeid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidIsNotNull() {
+            addCriterion("nownodeid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidEqualTo(Long value) {
+            addCriterion("nownodeid =", value, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidNotEqualTo(Long value) {
+            addCriterion("nownodeid <>", value, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidGreaterThan(Long value) {
+            addCriterion("nownodeid >", value, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidGreaterThanOrEqualTo(Long value) {
+            addCriterion("nownodeid >=", value, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidLessThan(Long value) {
+            addCriterion("nownodeid <", value, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidLessThanOrEqualTo(Long value) {
+            addCriterion("nownodeid <=", value, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidIn(List<Long> values) {
+            addCriterion("nownodeid in", values, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidNotIn(List<Long> values) {
+            addCriterion("nownodeid not in", values, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidBetween(Long value1, Long value2) {
+            addCriterion("nownodeid between", value1, value2, "nownodeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNownodeidNotBetween(Long value1, Long value2) {
+            addCriterion("nownodeid not between", value1, value2, "nownodeid");
             return (Criteria) this;
         }
     }

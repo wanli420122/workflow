@@ -5,44 +5,37 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ActExecution implements Serializable {
-    private String id;
+    private Long id;
 
-    @ApiModelProperty(value = "流程定义表id")
-    private String deploymentid;
+    private Long deploymentid;
 
-    @ApiModelProperty(value = "表单id")
     private String formid;
 
-    @ApiModelProperty(value = "执行表单id")
     private String multiid;
 
-    @ApiModelProperty(value = "用户id")
     private String userid;
 
-    @ApiModelProperty(value = "任务执行状态 0-审核中 1-审核通过 2-审核不通过")
     private Integer status;
 
-    @ApiModelProperty(value = "开始执行任务时间")
     private Date starttime;
 
-    @ApiModelProperty(value = "结束执行任务时间")
     private Date endtime;
 
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getDeploymentid() {
+    public Long getDeploymentid() {
         return deploymentid;
     }
 
-    public void setDeploymentid(String deploymentid) {
+    public void setDeploymentid(Long deploymentid) {
         this.deploymentid = deploymentid;
     }
 

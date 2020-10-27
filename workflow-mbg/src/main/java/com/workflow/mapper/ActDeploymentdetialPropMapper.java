@@ -10,7 +10,7 @@ public interface ActDeploymentdetialPropMapper {
 
     int deleteByExample(ActDeploymentdetialPropExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(ActDeploymentdetialProp record);
 
@@ -18,7 +18,7 @@ public interface ActDeploymentdetialPropMapper {
 
     List<ActDeploymentdetialProp> selectByExample(ActDeploymentdetialPropExample example);
 
-    ActDeploymentdetialProp selectByPrimaryKey(String id);
+    ActDeploymentdetialProp selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") ActDeploymentdetialProp record, @Param("example") ActDeploymentdetialPropExample example);
 

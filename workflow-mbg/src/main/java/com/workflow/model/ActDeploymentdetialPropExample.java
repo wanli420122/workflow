@@ -114,62 +114,52 @@ public class ActDeploymentdetialPropExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(String value) {
+        public Criteria andIdEqualTo(Long value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(String value) {
+        public Criteria andIdNotEqualTo(Long value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(String value) {
+        public Criteria andIdGreaterThan(Long value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(String value) {
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(String value) {
+        public Criteria andIdLessThan(Long value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(String value) {
+        public Criteria andIdLessThanOrEqualTo(Long value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLike(String value) {
-            addCriterion("id like", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotLike(String value) {
-            addCriterion("id not like", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIn(List<String> values) {
+        public Criteria andIdIn(List<Long> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<String> values) {
+        public Criteria andIdNotIn(List<Long> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(String value1, String value2) {
+        public Criteria andIdBetween(Long value1, Long value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(String value1, String value2) {
+        public Criteria andIdNotBetween(Long value1, Long value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -184,62 +174,52 @@ public class ActDeploymentdetialPropExample {
             return (Criteria) this;
         }
 
-        public Criteria andNodeidEqualTo(String value) {
+        public Criteria andNodeidEqualTo(Long value) {
             addCriterion("nodeid =", value, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidNotEqualTo(String value) {
+        public Criteria andNodeidNotEqualTo(Long value) {
             addCriterion("nodeid <>", value, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidGreaterThan(String value) {
+        public Criteria andNodeidGreaterThan(Long value) {
             addCriterion("nodeid >", value, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidGreaterThanOrEqualTo(String value) {
+        public Criteria andNodeidGreaterThanOrEqualTo(Long value) {
             addCriterion("nodeid >=", value, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidLessThan(String value) {
+        public Criteria andNodeidLessThan(Long value) {
             addCriterion("nodeid <", value, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidLessThanOrEqualTo(String value) {
+        public Criteria andNodeidLessThanOrEqualTo(Long value) {
             addCriterion("nodeid <=", value, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidLike(String value) {
-            addCriterion("nodeid like", value, "nodeid");
-            return (Criteria) this;
-        }
-
-        public Criteria andNodeidNotLike(String value) {
-            addCriterion("nodeid not like", value, "nodeid");
-            return (Criteria) this;
-        }
-
-        public Criteria andNodeidIn(List<String> values) {
+        public Criteria andNodeidIn(List<Long> values) {
             addCriterion("nodeid in", values, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidNotIn(List<String> values) {
+        public Criteria andNodeidNotIn(List<Long> values) {
             addCriterion("nodeid not in", values, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidBetween(String value1, String value2) {
+        public Criteria andNodeidBetween(Long value1, Long value2) {
             addCriterion("nodeid between", value1, value2, "nodeid");
             return (Criteria) this;
         }
 
-        public Criteria andNodeidNotBetween(String value1, String value2) {
+        public Criteria andNodeidNotBetween(Long value1, Long value2) {
             addCriterion("nodeid not between", value1, value2, "nodeid");
             return (Criteria) this;
         }

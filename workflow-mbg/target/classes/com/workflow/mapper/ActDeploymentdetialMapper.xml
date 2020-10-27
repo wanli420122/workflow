@@ -2,14 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.workflow.mapper.ActDeploymentdetialMapper">
   <resultMap id="BaseResultMap" type="com.workflow.model.ActDeploymentdetial">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="deploymentid" jdbcType="VARCHAR" property="deploymentid" />
-    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="deploymentid" jdbcType="BIGINT" property="deploymentid" />
+    <result column="pid" jdbcType="BIGINT" property="pid" />
+    <result column="nodecode" jdbcType="VARCHAR" property="nodecode" />
     <result column="nodename" jdbcType="VARCHAR" property="nodename" />
-    <result column="nodeversion" jdbcType="VARCHAR" property="nodeversion" />
-    <result column="belongroute" jdbcType="VARCHAR" property="belongroute" />
-    <result column="exportroute" jdbcType="VARCHAR" property="exportroute" />
+    <result column="nodeversion" jdbcType="BIGINT" property="nodeversion" />
+    <result column="belongroute" jdbcType="BIGINT" property="belongroute" />
     <result column="nodetype" jdbcType="INTEGER" property="nodetype" />
+    <result column="nodeuserlist" jdbcType="VARCHAR" property="nodeuserlist" />
+    <result column="conditionnodes" jdbcType="VARCHAR" property="conditionnodes" />
+    <result column="executionmode" jdbcType="INTEGER" property="executionmode" />
+    <result column="scenecoding" jdbcType="INTEGER" property="scenecoding" />
+    <result column="sqlstring" jdbcType="VARCHAR" property="sqlstring" />
+    <result column="jump" jdbcType="BIT" property="jump" />
+    <result column="handlertype" jdbcType="INTEGER" property="handlertype" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, deploymentid, pid, nodename, nodeversion, belongroute, exportroute, nodetype
+    id, deploymentid, pid, nodecode, nodename, nodeversion, belongroute, nodetype, nodeuserlist, 
+    conditionnodes, executionmode, scenecoding, sqlstring, jump, handlertype
   </sql>
   <select id="selectByExample" parameterType="com.workflow.model.ActDeploymentdetialExample" resultMap="BaseResultMap">
     select
@@ -86,15 +94,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from act_deploymentdetial
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from act_deploymentdetial
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.workflow.model.ActDeploymentdetialExample">
     delete from act_deploymentdetial
@@ -104,11 +112,17 @@
   </delete>
   <insert id="insert" parameterType="com.workflow.model.ActDeploymentdetial">
     insert into act_deploymentdetial (id, deploymentid, pid, 
-      nodename, nodeversion, belongroute, 
-      exportroute, nodetype)
-    values (#{id,jdbcType=VARCHAR}, #{deploymentid,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, 
-      #{nodename,jdbcType=VARCHAR}, #{nodeversion,jdbcType=VARCHAR}, #{belongroute,jdbcType=VARCHAR}, 
-      #{exportroute,jdbcType=VARCHAR}, #{nodetype,jdbcType=INTEGER})
+      nodecode, nodename, nodeversion, 
+      belongroute, nodetype, nodeuserlist, 
+      conditionnodes, executionmode, scenecoding, 
+      sqlstring, jump, handlertype
+      )
+    values (#{id,jdbcType=BIGINT}, #{deploymentid,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, 
+      #{nodecode,jdbcType=VARCHAR}, #{nodename,jdbcType=VARCHAR}, #{nodeversion,jdbcType=BIGINT}, 
+      #{belongroute,jdbcType=BIGINT}, #{nodetype,jdbcType=INTEGER}, #{nodeuserlist,jdbcType=VARCHAR}, 
+      #{conditionnodes,jdbcType=VARCHAR}, #{executionmode,jdbcType=INTEGER}, #{scenecoding,jdbcType=INTEGER}, 
+      #{sqlstring,jdbcType=VARCHAR}, #{jump,jdbcType=BIT}, #{handlertype,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.workflow.model.ActDeploymentdetial">
     insert into act_deploymentdetial
@@ -122,6 +136,9 @@
       <if test="pid != null">
         pid,
       </if>
+      <if test="nodecode != null">
+        nodecode,
+      </if>
       <if test="nodename != null">
         nodename,
       </if>
@@ -131,37 +148,76 @@
       <if test="belongroute != null">
         belongroute,
       </if>
-      <if test="exportroute != null">
-        exportroute,
-      </if>
       <if test="nodetype != null">
         nodetype,
+      </if>
+      <if test="nodeuserlist != null">
+        nodeuserlist,
+      </if>
+      <if test="conditionnodes != null">
+        conditionnodes,
+      </if>
+      <if test="executionmode != null">
+        executionmode,
+      </if>
+      <if test="scenecoding != null">
+        scenecoding,
+      </if>
+      <if test="sqlstring != null">
+        sqlstring,
+      </if>
+      <if test="jump != null">
+        jump,
+      </if>
+      <if test="handlertype != null">
+        handlertype,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="deploymentid != null">
-        #{deploymentid,jdbcType=VARCHAR},
+        #{deploymentid,jdbcType=BIGINT},
       </if>
       <if test="pid != null">
-        #{pid,jdbcType=VARCHAR},
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="nodecode != null">
+        #{nodecode,jdbcType=VARCHAR},
       </if>
       <if test="nodename != null">
         #{nodename,jdbcType=VARCHAR},
       </if>
       <if test="nodeversion != null">
-        #{nodeversion,jdbcType=VARCHAR},
+        #{nodeversion,jdbcType=BIGINT},
       </if>
       <if test="belongroute != null">
-        #{belongroute,jdbcType=VARCHAR},
-      </if>
-      <if test="exportroute != null">
-        #{exportroute,jdbcType=VARCHAR},
+        #{belongroute,jdbcType=BIGINT},
       </if>
       <if test="nodetype != null">
         #{nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="nodeuserlist != null">
+        #{nodeuserlist,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionnodes != null">
+        #{conditionnodes,jdbcType=VARCHAR},
+      </if>
+      <if test="executionmode != null">
+        #{executionmode,jdbcType=INTEGER},
+      </if>
+      <if test="scenecoding != null">
+        #{scenecoding,jdbcType=INTEGER},
+      </if>
+      <if test="sqlstring != null">
+        #{sqlstring,jdbcType=VARCHAR},
+      </if>
+      <if test="jump != null">
+        #{jump,jdbcType=BIT},
+      </if>
+      <if test="handlertype != null">
+        #{handlertype,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -175,28 +231,49 @@
     update act_deploymentdetial
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.deploymentid != null">
-        deploymentid = #{record.deploymentid,jdbcType=VARCHAR},
+        deploymentid = #{record.deploymentid,jdbcType=BIGINT},
       </if>
       <if test="record.pid != null">
-        pid = #{record.pid,jdbcType=VARCHAR},
+        pid = #{record.pid,jdbcType=BIGINT},
+      </if>
+      <if test="record.nodecode != null">
+        nodecode = #{record.nodecode,jdbcType=VARCHAR},
       </if>
       <if test="record.nodename != null">
         nodename = #{record.nodename,jdbcType=VARCHAR},
       </if>
       <if test="record.nodeversion != null">
-        nodeversion = #{record.nodeversion,jdbcType=VARCHAR},
+        nodeversion = #{record.nodeversion,jdbcType=BIGINT},
       </if>
       <if test="record.belongroute != null">
-        belongroute = #{record.belongroute,jdbcType=VARCHAR},
-      </if>
-      <if test="record.exportroute != null">
-        exportroute = #{record.exportroute,jdbcType=VARCHAR},
+        belongroute = #{record.belongroute,jdbcType=BIGINT},
       </if>
       <if test="record.nodetype != null">
         nodetype = #{record.nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.nodeuserlist != null">
+        nodeuserlist = #{record.nodeuserlist,jdbcType=VARCHAR},
+      </if>
+      <if test="record.conditionnodes != null">
+        conditionnodes = #{record.conditionnodes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executionmode != null">
+        executionmode = #{record.executionmode,jdbcType=INTEGER},
+      </if>
+      <if test="record.scenecoding != null">
+        scenecoding = #{record.scenecoding,jdbcType=INTEGER},
+      </if>
+      <if test="record.sqlstring != null">
+        sqlstring = #{record.sqlstring,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jump != null">
+        jump = #{record.jump,jdbcType=BIT},
+      </if>
+      <if test="record.handlertype != null">
+        handlertype = #{record.handlertype,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -205,14 +282,21 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update act_deploymentdetial
-    set id = #{record.id,jdbcType=VARCHAR},
-      deploymentid = #{record.deploymentid,jdbcType=VARCHAR},
-      pid = #{record.pid,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
+      deploymentid = #{record.deploymentid,jdbcType=BIGINT},
+      pid = #{record.pid,jdbcType=BIGINT},
+      nodecode = #{record.nodecode,jdbcType=VARCHAR},
       nodename = #{record.nodename,jdbcType=VARCHAR},
-      nodeversion = #{record.nodeversion,jdbcType=VARCHAR},
-      belongroute = #{record.belongroute,jdbcType=VARCHAR},
-      exportroute = #{record.exportroute,jdbcType=VARCHAR},
-      nodetype = #{record.nodetype,jdbcType=INTEGER}
+      nodeversion = #{record.nodeversion,jdbcType=BIGINT},
+      belongroute = #{record.belongroute,jdbcType=BIGINT},
+      nodetype = #{record.nodetype,jdbcType=INTEGER},
+      nodeuserlist = #{record.nodeuserlist,jdbcType=VARCHAR},
+      conditionnodes = #{record.conditionnodes,jdbcType=VARCHAR},
+      executionmode = #{record.executionmode,jdbcType=INTEGER},
+      scenecoding = #{record.scenecoding,jdbcType=INTEGER},
+      sqlstring = #{record.sqlstring,jdbcType=VARCHAR},
+      jump = #{record.jump,jdbcType=BIT},
+      handlertype = #{record.handlertype,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -221,38 +305,66 @@
     update act_deploymentdetial
     <set>
       <if test="deploymentid != null">
-        deploymentid = #{deploymentid,jdbcType=VARCHAR},
+        deploymentid = #{deploymentid,jdbcType=BIGINT},
       </if>
       <if test="pid != null">
-        pid = #{pid,jdbcType=VARCHAR},
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="nodecode != null">
+        nodecode = #{nodecode,jdbcType=VARCHAR},
       </if>
       <if test="nodename != null">
         nodename = #{nodename,jdbcType=VARCHAR},
       </if>
       <if test="nodeversion != null">
-        nodeversion = #{nodeversion,jdbcType=VARCHAR},
+        nodeversion = #{nodeversion,jdbcType=BIGINT},
       </if>
       <if test="belongroute != null">
-        belongroute = #{belongroute,jdbcType=VARCHAR},
-      </if>
-      <if test="exportroute != null">
-        exportroute = #{exportroute,jdbcType=VARCHAR},
+        belongroute = #{belongroute,jdbcType=BIGINT},
       </if>
       <if test="nodetype != null">
         nodetype = #{nodetype,jdbcType=INTEGER},
       </if>
+      <if test="nodeuserlist != null">
+        nodeuserlist = #{nodeuserlist,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionnodes != null">
+        conditionnodes = #{conditionnodes,jdbcType=VARCHAR},
+      </if>
+      <if test="executionmode != null">
+        executionmode = #{executionmode,jdbcType=INTEGER},
+      </if>
+      <if test="scenecoding != null">
+        scenecoding = #{scenecoding,jdbcType=INTEGER},
+      </if>
+      <if test="sqlstring != null">
+        sqlstring = #{sqlstring,jdbcType=VARCHAR},
+      </if>
+      <if test="jump != null">
+        jump = #{jump,jdbcType=BIT},
+      </if>
+      <if test="handlertype != null">
+        handlertype = #{handlertype,jdbcType=INTEGER},
+      </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActDeploymentdetial">
     update act_deploymentdetial
-    set deploymentid = #{deploymentid,jdbcType=VARCHAR},
-      pid = #{pid,jdbcType=VARCHAR},
+    set deploymentid = #{deploymentid,jdbcType=BIGINT},
+      pid = #{pid,jdbcType=BIGINT},
+      nodecode = #{nodecode,jdbcType=VARCHAR},
       nodename = #{nodename,jdbcType=VARCHAR},
-      nodeversion = #{nodeversion,jdbcType=VARCHAR},
-      belongroute = #{belongroute,jdbcType=VARCHAR},
-      exportroute = #{exportroute,jdbcType=VARCHAR},
-      nodetype = #{nodetype,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
+      nodeversion = #{nodeversion,jdbcType=BIGINT},
+      belongroute = #{belongroute,jdbcType=BIGINT},
+      nodetype = #{nodetype,jdbcType=INTEGER},
+      nodeuserlist = #{nodeuserlist,jdbcType=VARCHAR},
+      conditionnodes = #{conditionnodes,jdbcType=VARCHAR},
+      executionmode = #{executionmode,jdbcType=INTEGER},
+      scenecoding = #{scenecoding,jdbcType=INTEGER},
+      sqlstring = #{sqlstring,jdbcType=VARCHAR},
+      jump = #{jump,jdbcType=BIT},
+      handlertype = #{handlertype,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

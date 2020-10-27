@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.workflow.mapper.ActDeploymentMapper">
   <resultMap id="BaseResultMap" type="com.workflow.model.ActDeployment">
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="versioncode" jdbcType="VARCHAR" property="versioncode" />
+    <result column="versioncode" jdbcType="BIGINT" property="versioncode" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.workflow.model.ActDeployment">
@@ -104,17 +104,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from act_deployment
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from act_deployment
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.workflow.model.ActDeploymentExample">
     delete from act_deployment
@@ -125,7 +125,7 @@
   <insert id="insert" parameterType="com.workflow.model.ActDeployment">
     insert into act_deployment (id, name, versioncode, 
       createtime, jsondata)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{versioncode,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{versioncode,jdbcType=BIGINT}, 
       #{createtime,jdbcType=TIMESTAMP}, #{jsondata,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.workflow.model.ActDeployment">
@@ -149,13 +149,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="versioncode != null">
-        #{versioncode,jdbcType=VARCHAR},
+        #{versioncode,jdbcType=BIGINT},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -175,13 +175,13 @@
     update act_deployment
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.versioncode != null">
-        versioncode = #{record.versioncode,jdbcType=VARCHAR},
+        versioncode = #{record.versioncode,jdbcType=BIGINT},
       </if>
       <if test="record.createtime != null">
         createtime = #{record.createtime,jdbcType=TIMESTAMP},
@@ -196,9 +196,9 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update act_deployment
-    set id = #{record.id,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      versioncode = #{record.versioncode,jdbcType=VARCHAR},
+      versioncode = #{record.versioncode,jdbcType=BIGINT},
       createtime = #{record.createtime,jdbcType=TIMESTAMP},
       jsondata = #{record.jsondata,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -207,9 +207,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update act_deployment
-    set id = #{record.id,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      versioncode = #{record.versioncode,jdbcType=VARCHAR},
+      versioncode = #{record.versioncode,jdbcType=BIGINT},
       createtime = #{record.createtime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -222,7 +222,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="versioncode != null">
-        versioncode = #{versioncode,jdbcType=VARCHAR},
+        versioncode = #{versioncode,jdbcType=BIGINT},
       </if>
       <if test="createtime != null">
         createtime = #{createtime,jdbcType=TIMESTAMP},
@@ -231,21 +231,21 @@
         jsondata = #{jsondata,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.workflow.model.ActDeployment">
     update act_deployment
     set name = #{name,jdbcType=VARCHAR},
-      versioncode = #{versioncode,jdbcType=VARCHAR},
+      versioncode = #{versioncode,jdbcType=BIGINT},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       jsondata = #{jsondata,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActDeployment">
     update act_deployment
     set name = #{name,jdbcType=VARCHAR},
-      versioncode = #{versioncode,jdbcType=VARCHAR},
+      versioncode = #{versioncode,jdbcType=BIGINT},
       createtime = #{createtime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

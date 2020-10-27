@@ -10,7 +10,7 @@ public interface ActExecutionTaskMapper {
 
     int deleteByExample(ActExecutionTaskExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(ActExecutionTask record);
 
@@ -18,7 +18,7 @@ public interface ActExecutionTaskMapper {
 
     List<ActExecutionTask> selectByExample(ActExecutionTaskExample example);
 
-    ActExecutionTask selectByPrimaryKey(String id);
+    ActExecutionTask selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") ActExecutionTask record, @Param("example") ActExecutionTaskExample example);
 

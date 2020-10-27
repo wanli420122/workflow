@@ -4,38 +4,33 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 public class ActDeploymentdetialProp implements Serializable {
-    private String id;
+    private Long id;
 
-    @ApiModelProperty(value = "节点外键")
-    private String nodeid;
+    private Long nodeid;
 
-    @ApiModelProperty(value = "所属组织机构id")
     private String organizationid;
 
-    @ApiModelProperty(value = "所属角色id")
     private String roleid;
 
-    @ApiModelProperty(value = "用户id")
     private String userid;
 
-    @ApiModelProperty(value = "条件表达式")
     private String conditionpress;
 
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNodeid() {
+    public Long getNodeid() {
         return nodeid;
     }
 
-    public void setNodeid(String nodeid) {
+    public void setNodeid(Long nodeid) {
         this.nodeid = nodeid;
     }
 

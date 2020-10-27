@@ -5,27 +5,23 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ActDeployment implements Serializable {
-    private String id;
+    private Long id;
 
-    @ApiModelProperty(value = "流程名称")
     private String name;
 
-    @ApiModelProperty(value = "流程版本号")
-    private String versioncode;
+    private Long versioncode;
 
-    @ApiModelProperty(value = "版本号")
     private Date createtime;
 
-    @ApiModelProperty(value = "流程图json格式数据")
     private String jsondata;
 
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,11 +33,11 @@ public class ActDeployment implements Serializable {
         this.name = name;
     }
 
-    public String getVersioncode() {
+    public Long getVersioncode() {
         return versioncode;
     }
 
-    public void setVersioncode(String versioncode) {
+    public void setVersioncode(Long versioncode) {
         this.versioncode = versioncode;
     }
 

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.workflow.mapper.ActExecutionMapper">
   <resultMap id="BaseResultMap" type="com.workflow.model.ActExecution">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="deploymentid" jdbcType="VARCHAR" property="deploymentid" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="deploymentid" jdbcType="BIGINT" property="deploymentid" />
     <result column="formid" jdbcType="VARCHAR" property="formid" />
     <result column="multiid" jdbcType="VARCHAR" property="multiid" />
     <result column="userid" jdbcType="VARCHAR" property="userid" />
@@ -86,15 +86,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from act_execution
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from act_execution
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.workflow.model.ActExecutionExample">
     delete from act_execution
@@ -106,7 +106,7 @@
     insert into act_execution (id, deploymentid, formid, 
       multiid, userid, status, 
       starttime, endtime)
-    values (#{id,jdbcType=VARCHAR}, #{deploymentid,jdbcType=VARCHAR}, #{formid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{deploymentid,jdbcType=BIGINT}, #{formid,jdbcType=VARCHAR}, 
       #{multiid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP})
   </insert>
@@ -140,10 +140,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="deploymentid != null">
-        #{deploymentid,jdbcType=VARCHAR},
+        #{deploymentid,jdbcType=BIGINT},
       </if>
       <if test="formid != null">
         #{formid,jdbcType=VARCHAR},
@@ -175,10 +175,10 @@
     update act_execution
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.deploymentid != null">
-        deploymentid = #{record.deploymentid,jdbcType=VARCHAR},
+        deploymentid = #{record.deploymentid,jdbcType=BIGINT},
       </if>
       <if test="record.formid != null">
         formid = #{record.formid,jdbcType=VARCHAR},
@@ -205,8 +205,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update act_execution
-    set id = #{record.id,jdbcType=VARCHAR},
-      deploymentid = #{record.deploymentid,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
+      deploymentid = #{record.deploymentid,jdbcType=BIGINT},
       formid = #{record.formid,jdbcType=VARCHAR},
       multiid = #{record.multiid,jdbcType=VARCHAR},
       userid = #{record.userid,jdbcType=VARCHAR},
@@ -221,7 +221,7 @@
     update act_execution
     <set>
       <if test="deploymentid != null">
-        deploymentid = #{deploymentid,jdbcType=VARCHAR},
+        deploymentid = #{deploymentid,jdbcType=BIGINT},
       </if>
       <if test="formid != null">
         formid = #{formid,jdbcType=VARCHAR},
@@ -242,17 +242,17 @@
         endtime = #{endtime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActExecution">
     update act_execution
-    set deploymentid = #{deploymentid,jdbcType=VARCHAR},
+    set deploymentid = #{deploymentid,jdbcType=BIGINT},
       formid = #{formid,jdbcType=VARCHAR},
       multiid = #{multiid,jdbcType=VARCHAR},
       userid = #{userid,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       starttime = #{starttime,jdbcType=TIMESTAMP},
       endtime = #{endtime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -1,5 +1,7 @@
 package com.workflow.common.api;
 
+import com.workflow.common.enumerate.ResultCode;
+
 /**
  * 通用返回对象
  * Created by wanli on 2020/7/15.

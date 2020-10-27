@@ -28,6 +28,15 @@
             <version>4.8</version>
         </dependency>
     </dependencies>
+    <!--当有聚合的maven项目，父子modual引用时需要加入这个插件才可以运行 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 
 

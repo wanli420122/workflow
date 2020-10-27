@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.workflow.mapper.ActAgentingMapper">
   <resultMap id="BaseResultMap" type="com.workflow.model.ActAgenting">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="taskid" jdbcType="VARCHAR" property="taskid" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="taskid" jdbcType="BIGINT" property="taskid" />
     <result column="useid" jdbcType="VARCHAR" property="useid" />
     <result column="agentingstatus" jdbcType="INTEGER" property="agentingstatus" />
     <result column="agentingsign" jdbcType="INTEGER" property="agentingsign" />
     <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
     <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="nownodeid" jdbcType="BIGINT" property="nownodeid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, taskid, useid, agentingstatus, agentingsign, starttime, endtime
+    id, taskid, useid, agentingstatus, agentingsign, starttime, endtime, nownodeid
   </sql>
   <select id="selectByExample" parameterType="com.workflow.model.ActAgentingExample" resultMap="BaseResultMap">
     select
@@ -85,15 +86,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from act_agenting
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from act_agenting
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.workflow.model.ActAgentingExample">
     delete from act_agenting
@@ -104,10 +105,10 @@
   <insert id="insert" parameterType="com.workflow.model.ActAgenting">
     insert into act_agenting (id, taskid, useid, 
       agentingstatus, agentingsign, starttime, 
-      endtime)
-    values (#{id,jdbcType=VARCHAR}, #{taskid,jdbcType=VARCHAR}, #{useid,jdbcType=VARCHAR}, 
+      endtime, nownodeid)
+    values (#{id,jdbcType=BIGINT}, #{taskid,jdbcType=BIGINT}, #{useid,jdbcType=VARCHAR}, 
       #{agentingstatus,jdbcType=INTEGER}, #{agentingsign,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, 
-      #{endtime,jdbcType=TIMESTAMP})
+      #{endtime,jdbcType=TIMESTAMP}, #{nownodeid,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.workflow.model.ActAgenting">
     insert into act_agenting
@@ -133,13 +134,16 @@
       <if test="endtime != null">
         endtime,
       </if>
+      <if test="nownodeid != null">
+        nownodeid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="taskid != null">
-        #{taskid,jdbcType=VARCHAR},
+        #{taskid,jdbcType=BIGINT},
       </if>
       <if test="useid != null">
         #{useid,jdbcType=VARCHAR},
@@ -156,6 +160,9 @@
       <if test="endtime != null">
         #{endtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="nownodeid != null">
+        #{nownodeid,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.workflow.model.ActAgentingExample" resultType="java.lang.Long">
@@ -168,10 +175,10 @@
     update act_agenting
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.taskid != null">
-        taskid = #{record.taskid,jdbcType=VARCHAR},
+        taskid = #{record.taskid,jdbcType=BIGINT},
       </if>
       <if test="record.useid != null">
         useid = #{record.useid,jdbcType=VARCHAR},
@@ -188,6 +195,9 @@
       <if test="record.endtime != null">
         endtime = #{record.endtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.nownodeid != null">
+        nownodeid = #{record.nownodeid,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -195,13 +205,14 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update act_agenting
-    set id = #{record.id,jdbcType=VARCHAR},
-      taskid = #{record.taskid,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
+      taskid = #{record.taskid,jdbcType=BIGINT},
       useid = #{record.useid,jdbcType=VARCHAR},
       agentingstatus = #{record.agentingstatus,jdbcType=INTEGER},
       agentingsign = #{record.agentingsign,jdbcType=INTEGER},
       starttime = #{record.starttime,jdbcType=TIMESTAMP},
-      endtime = #{record.endtime,jdbcType=TIMESTAMP}
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      nownodeid = #{record.nownodeid,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -210,7 +221,7 @@
     update act_agenting
     <set>
       <if test="taskid != null">
-        taskid = #{taskid,jdbcType=VARCHAR},
+        taskid = #{taskid,jdbcType=BIGINT},
       </if>
       <if test="useid != null">
         useid = #{useid,jdbcType=VARCHAR},
@@ -227,17 +238,21 @@
       <if test="endtime != null">
         endtime = #{endtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="nownodeid != null">
+        nownodeid = #{nownodeid,jdbcType=BIGINT},
+      </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActAgenting">
     update act_agenting
-    set taskid = #{taskid,jdbcType=VARCHAR},
+    set taskid = #{taskid,jdbcType=BIGINT},
       useid = #{useid,jdbcType=VARCHAR},
       agentingstatus = #{agentingstatus,jdbcType=INTEGER},
       agentingsign = #{agentingsign,jdbcType=INTEGER},
       starttime = #{starttime,jdbcType=TIMESTAMP},
-      endtime = #{endtime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=VARCHAR}
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      nownodeid = #{nownodeid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

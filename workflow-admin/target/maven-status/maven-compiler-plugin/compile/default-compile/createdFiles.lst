@@ -1,0 +1,11 @@
+com\workflow\exception\ActivityException.class
+com\workflow\bo\WebLog.class
+com\workflow\component\BindingResultAspect.class
+com\workflow\config\Swagger2Config.class
+com\workflow\config\MyBatisConfig.class
+com\workflow\service\impl\ActivityServiceImpl.class
+com\workflow\component\WebLogAspect.class
+com\workflow\WorkFlowApplication.class
+com\workflow\controller\WorkFlowController.class
+com\workflow\config\GlobalCorsConfig.class
+com\workflow\service\ActivityService.class

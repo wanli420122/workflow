@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.workflow.mapper.ActExecutionTaskMapper">
   <resultMap id="BaseResultMap" type="com.workflow.model.ActExecutionTask">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="executionid" jdbcType="VARCHAR" property="executionid" />
-    <result column="deploymentdetialid" jdbcType="VARCHAR" property="deploymentdetialid" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="executionid" jdbcType="BIGINT" property="executionid" />
+    <result column="deploymentdetialid" jdbcType="BIGINT" property="deploymentdetialid" />
     <result column="nodename" jdbcType="VARCHAR" property="nodename" />
     <result column="nodestatus" jdbcType="INTEGER" property="nodestatus" />
+    <result column="nodetype" jdbcType="INTEGER" property="nodetype" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, executionid, deploymentdetialid, nodename, nodestatus
+    id, executionid, deploymentdetialid, nodename, nodestatus, nodetype
   </sql>
   <select id="selectByExample" parameterType="com.workflow.model.ActExecutionTaskExample" resultMap="BaseResultMap">
     select
@@ -83,15 +84,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from act_execution_task
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from act_execution_task
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.workflow.model.ActExecutionTaskExample">
     delete from act_execution_task
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="com.workflow.model.ActExecutionTask">
     insert into act_execution_task (id, executionid, deploymentdetialid, 
-      nodename, nodestatus)
-    values (#{id,jdbcType=VARCHAR}, #{executionid,jdbcType=VARCHAR}, #{deploymentdetialid,jdbcType=VARCHAR}, 
-      #{nodename,jdbcType=VARCHAR}, #{nodestatus,jdbcType=INTEGER})
+      nodename, nodestatus, nodetype
+      )
+    values (#{id,jdbcType=BIGINT}, #{executionid,jdbcType=BIGINT}, #{deploymentdetialid,jdbcType=BIGINT}, 
+      #{nodename,jdbcType=VARCHAR}, #{nodestatus,jdbcType=INTEGER}, #{nodetype,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.workflow.model.ActExecutionTask">
     insert into act_execution_task
@@ -123,22 +126,28 @@
       <if test="nodestatus != null">
         nodestatus,
       </if>
+      <if test="nodetype != null">
+        nodetype,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="executionid != null">
-        #{executionid,jdbcType=VARCHAR},
+        #{executionid,jdbcType=BIGINT},
       </if>
       <if test="deploymentdetialid != null">
-        #{deploymentdetialid,jdbcType=VARCHAR},
+        #{deploymentdetialid,jdbcType=BIGINT},
       </if>
       <if test="nodename != null">
         #{nodename,jdbcType=VARCHAR},
       </if>
       <if test="nodestatus != null">
         #{nodestatus,jdbcType=INTEGER},
+      </if>
+      <if test="nodetype != null">
+        #{nodetype,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -152,19 +161,22 @@
     update act_execution_task
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.executionid != null">
-        executionid = #{record.executionid,jdbcType=VARCHAR},
+        executionid = #{record.executionid,jdbcType=BIGINT},
       </if>
       <if test="record.deploymentdetialid != null">
-        deploymentdetialid = #{record.deploymentdetialid,jdbcType=VARCHAR},
+        deploymentdetialid = #{record.deploymentdetialid,jdbcType=BIGINT},
       </if>
       <if test="record.nodename != null">
         nodename = #{record.nodename,jdbcType=VARCHAR},
       </if>
       <if test="record.nodestatus != null">
         nodestatus = #{record.nodestatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.nodetype != null">
+        nodetype = #{record.nodetype,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -173,11 +185,12 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update act_execution_task
-    set id = #{record.id,jdbcType=VARCHAR},
-      executionid = #{record.executionid,jdbcType=VARCHAR},
-      deploymentdetialid = #{record.deploymentdetialid,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
+      executionid = #{record.executionid,jdbcType=BIGINT},
+      deploymentdetialid = #{record.deploymentdetialid,jdbcType=BIGINT},
       nodename = #{record.nodename,jdbcType=VARCHAR},
-      nodestatus = #{record.nodestatus,jdbcType=INTEGER}
+      nodestatus = #{record.nodestatus,jdbcType=INTEGER},
+      nodetype = #{record.nodetype,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -186,10 +199,10 @@
     update act_execution_task
     <set>
       <if test="executionid != null">
-        executionid = #{executionid,jdbcType=VARCHAR},
+        executionid = #{executionid,jdbcType=BIGINT},
       </if>
       <if test="deploymentdetialid != null">
-        deploymentdetialid = #{deploymentdetialid,jdbcType=VARCHAR},
+        deploymentdetialid = #{deploymentdetialid,jdbcType=BIGINT},
       </if>
       <if test="nodename != null">
         nodename = #{nodename,jdbcType=VARCHAR},
@@ -197,15 +210,19 @@
       <if test="nodestatus != null">
         nodestatus = #{nodestatus,jdbcType=INTEGER},
       </if>
+      <if test="nodetype != null">
+        nodetype = #{nodetype,jdbcType=INTEGER},
+      </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.workflow.model.ActExecutionTask">
     update act_execution_task
-    set executionid = #{executionid,jdbcType=VARCHAR},
-      deploymentdetialid = #{deploymentdetialid,jdbcType=VARCHAR},
+    set executionid = #{executionid,jdbcType=BIGINT},
+      deploymentdetialid = #{deploymentdetialid,jdbcType=BIGINT},
       nodename = #{nodename,jdbcType=VARCHAR},
-      nodestatus = #{nodestatus,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
+      nodestatus = #{nodestatus,jdbcType=INTEGER},
+      nodetype = #{nodetype,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

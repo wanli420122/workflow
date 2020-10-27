@@ -115,62 +115,52 @@ public class ActExecutionExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(String value) {
+        public Criteria andIdEqualTo(Long value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(String value) {
+        public Criteria andIdNotEqualTo(Long value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(String value) {
+        public Criteria andIdGreaterThan(Long value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(String value) {
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(String value) {
+        public Criteria andIdLessThan(Long value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(String value) {
+        public Criteria andIdLessThanOrEqualTo(Long value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLike(String value) {
-            addCriterion("id like", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotLike(String value) {
-            addCriterion("id not like", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIn(List<String> values) {
+        public Criteria andIdIn(List<Long> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<String> values) {
+        public Criteria andIdNotIn(List<Long> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(String value1, String value2) {
+        public Criteria andIdBetween(Long value1, Long value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(String value1, String value2) {
+        public Criteria andIdNotBetween(Long value1, Long value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -185,62 +175,52 @@ public class ActExecutionExample {
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidEqualTo(String value) {
+        public Criteria andDeploymentidEqualTo(Long value) {
             addCriterion("deploymentid =", value, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidNotEqualTo(String value) {
+        public Criteria andDeploymentidNotEqualTo(Long value) {
             addCriterion("deploymentid <>", value, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidGreaterThan(String value) {
+        public Criteria andDeploymentidGreaterThan(Long value) {
             addCriterion("deploymentid >", value, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidGreaterThanOrEqualTo(String value) {
+        public Criteria andDeploymentidGreaterThanOrEqualTo(Long value) {
             addCriterion("deploymentid >=", value, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidLessThan(String value) {
+        public Criteria andDeploymentidLessThan(Long value) {
             addCriterion("deploymentid <", value, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidLessThanOrEqualTo(String value) {
+        public Criteria andDeploymentidLessThanOrEqualTo(Long value) {
             addCriterion("deploymentid <=", value, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidLike(String value) {
-            addCriterion("deploymentid like", value, "deploymentid");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeploymentidNotLike(String value) {
-            addCriterion("deploymentid not like", value, "deploymentid");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeploymentidIn(List<String> values) {
+        public Criteria andDeploymentidIn(List<Long> values) {
             addCriterion("deploymentid in", values, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidNotIn(List<String> values) {
+        public Criteria andDeploymentidNotIn(List<Long> values) {
             addCriterion("deploymentid not in", values, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidBetween(String value1, String value2) {
+        public Criteria andDeploymentidBetween(Long value1, Long value2) {
             addCriterion("deploymentid between", value1, value2, "deploymentid");
             return (Criteria) this;
         }
 
-        public Criteria andDeploymentidNotBetween(String value1, String value2) {
+        public Criteria andDeploymentidNotBetween(Long value1, Long value2) {
             addCriterion("deploymentid not between", value1, value2, "deploymentid");
             return (Criteria) this;
         }

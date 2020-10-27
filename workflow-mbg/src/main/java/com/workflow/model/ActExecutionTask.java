@@ -4,43 +4,41 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 public class ActExecutionTask implements Serializable {
-    private String id;
+    private Long id;
 
-    @ApiModelProperty(value = "流程执行id")
-    private String executionid;
+    private Long executionid;
 
-    @ApiModelProperty(value = "流程实例id")
-    private String deploymentdetialid;
+    private Long deploymentdetialid;
 
-    @ApiModelProperty(value = "节点名称")
     private String nodename;
 
-    @ApiModelProperty(value = "节点执行状态 0-办理中 1-办理通过 2-驳回")
     private Integer nodestatus;
+
+    private Integer nodetype;
 
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getExecutionid() {
+    public Long getExecutionid() {
         return executionid;
     }
 
-    public void setExecutionid(String executionid) {
+    public void setExecutionid(Long executionid) {
         this.executionid = executionid;
     }
 
-    public String getDeploymentdetialid() {
+    public Long getDeploymentdetialid() {
         return deploymentdetialid;
     }
 
-    public void setDeploymentdetialid(String deploymentdetialid) {
+    public void setDeploymentdetialid(Long deploymentdetialid) {
         this.deploymentdetialid = deploymentdetialid;
     }
 
@@ -60,6 +58,14 @@ public class ActExecutionTask implements Serializable {
         this.nodestatus = nodestatus;
     }
 
+    public Integer getNodetype() {
+        return nodetype;
+    }
+
+    public void setNodetype(Integer nodetype) {
+        this.nodetype = nodetype;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -71,6 +77,7 @@ public class ActExecutionTask implements Serializable {
         sb.append(", deploymentdetialid=").append(deploymentdetialid);
         sb.append(", nodename=").append(nodename);
         sb.append(", nodestatus=").append(nodestatus);
+        sb.append(", nodetype=").append(nodetype);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -1,0 +1,71 @@
+"data":{
+"workFlowVersionId": "", //工作流版本号
+"workFlowName": "合同审批", //工作流名称
+"nodeConfig": {
+//节点总明细配置信息
+"nodeIndex": 1, //节点序号
+"nodeCode": "start",      //节点唯一编号
+"nodeName": "发起人", //节点名称
+"type": 0, //节点类型 0->发起人，1->审批，2->抄送，3->条件
+"nodeUserList": "111", //节点办理人(人员id/组织结构id/角色id)
+"childNode": {//子节点
+"nodeIndex": 2,
+"nodeCode": "node1",
+"nodeName": "审核人1",
+"type": 1,
+"nodeUserList": "111",
+"childNode": {
+"nodeIndex": 3,
+"nodeCode": "copy1",
+"nodeName": "抄送人1",
+"type": 2,
+"nodeUserList": "111",
+"childNode": [
+{
+"nodeIndex": 4,
+"nodeCode": "condition1",
+"nodeName": "条件1",
+"type": 3,
+"formId": "11111", //表单id
+"conditionNodes": "a==1", //关联表单条件表单式
+"childNode": {
+"nodeIndex": 2,
+"nodeCode": "node2",
+"nodeName": "审核人2",
+"type": 1,
+"nodeUserList": "111",
+"childNode":{
+"nodeIndex": 2,
+"nodeCode": "node4",
+"nodeName": "审核人4",
+"type": 1,
+"nodeUserList": "111"
+}
+}
+}, {
+"nodeIndex": 5,
+"nodeName": "条件2",
+"type": 3,
+"formId": "22222", //表单id
+"conditionNodes": {
+}, //关联表单条件表单式
+"childNode": {
+"nodeIndex": 2,
+"nodeName": "审核人3",
+"nodeCode": "node3",
+"type": 1,
+"nodeUserList": "111"
+"childNode":{
+"nodeIndex": 2,
+"nodeCode": "node4",
+"nodeName": "审核人4",
+"type": 1,
+"nodeUserList": "111"
+}
+}
+}
+]
+}
+}
+}
+}
