@@ -1,9 +1,11 @@
 {
+  "code": "200",
+  "msg": "操作成功",
   "data": {
     "tableId": 1,
     "workFlowVersionId": "",
     "workFlowDef": {
-      "name": "合同审批20201014",
+      "name": "合同审批",
       "publicFlag": 1,
       "sortNo": 5,
       "duplicateRemovelFlag": 1,
@@ -33,102 +35,33 @@
       "conditionList": [],
       "nodeUserList": [],
       "childNode": {
-        "nodeName": "审核人1",
-        "error": false,
-        "type": 1,
-        "settype": 2,
-        "selectMode": 0,
-        "selectRange": 0,
-        "directorLevel": 1,
-        "replaceByUp": 0,
-        "examineMode": 1,
-        "noHanderAction": 2,
-        "examineEndDirectorLevel": 0,
-        "childNode": {
-          "nodeName": "路由",
-          "type": 4,
-          "priorityLevel": 1,
-          "settype": 1,
-          "selectMode": 0,
-          "selectRange": 0,
-          "examineRoleId": 0,
-          "directorLevel": 1,
-          "replaceByUp": 0,
-          "examineMode": 1,
-          "noHanderAction": 2,
-          "examineEndType": 0,
-          "examineEndRoleId": 0,
-          "examineEndDirectorLevel": 1,
-          "ccSelfSelectFlag": 1,
-          "conditionList": [],
-          "nodeUserList": [],
-          "childNode": {
-            "nodeName": "抄送人",
-            "type": 2,
-            "ccSelfSelectFlag": 1,
+        "nodeName": "路由",
+        "type": 4,
+        "childNode": null,
+        "conditionNodes": [
+          {
+            "nodeName": "条件1",
+            "error": true,
+            "type": 3,
+            "priorityLevel": 1,
+            "conditionList": [],
+            "nodeUserList": [],
             "childNode": {
-              "nodeName": "审核人7",
+              "nodeName": "审核人",
               "error": false,
               "type": 1,
-              "settype": 7,
-              "selectMode": 0,
-              "selectRange": 0,
-              "directorLevel": 1,
-              "replaceByUp": 0,
-              "examineMode": 1,
-              "noHanderAction": 2,
-              "examineEndDirectorLevel": 1,
-              "childNode": null,
-              "nodeUserList": []
-            },
-            "nodeUserList": [],
-            "error": false
-          },
-          "conditionNodes": [
-            {
-              "nodeName": "条件1",
-              "type": 3,
-              "priorityLevel": 1,
               "settype": 1,
               "selectMode": 0,
               "selectRange": 0,
-              "examineRoleId": 0,
               "directorLevel": 1,
               "replaceByUp": 0,
               "examineMode": 1,
               "noHanderAction": 2,
-              "examineEndType": 0,
-              "examineEndRoleId": 0,
-              "examineEndDirectorLevel": 1,
-              "ccSelfSelectFlag": 1,
-              "conditionList": [
-                {
-                  "columnId": 0,
-                  "type": 1,
-                  "conditionEn": "",
-                  "conditionCn": "",
-                  "optType": "",
-                  "zdy1": "",
-                  "zdy2": "",
-                  "opt1": "",
-                  "opt2": "",
-                  "columnDbname": "",
-                  "columnType": "",
-                  "showType": "",
-                  "showName": "",
-                  "fixedDownBoxValue": ""
-                }
-              ],
-              "nodeUserList": [
-                {
-                  "targetId": 85,
-                  "type": 1,
-                  "name": "天旭"
-                }
-              ],
+              "examineEndDirectorLevel": 0,
               "childNode": {
-                "nodeName": "审核人2",
-                "type": 1,
+                "nodeName": "路由",
+                "type": 4,
+                "routenum": 1,
                 "priorityLevel": 1,
                 "settype": 1,
                 "selectMode": 0,
@@ -143,139 +76,155 @@
                 "examineEndDirectorLevel": 1,
                 "ccSelfSelectFlag": 1,
                 "conditionList": [],
-                "nodeUserList": [
-                  {
-                    "targetId": 2515744,
-                    "type": 1,
-                    "name": "哈哈哈哈"
-                  }
-                ],
+                "nodeUserList": [],
                 "childNode": {
-                  "nodeName": "父子路由",
-                  "type": 4,
-                  "childNode": {
-                    "nodeName": "审核人6",
-                    "error": false,
-                    "type": 1,
-                    "settype": 7,
+                  "nodeName": "抄送人",
+                  "type": 2,
+                  "ccSelfSelectFlag": 1,
+                  "childNode": null,
+                  "nodeUserList": [],
+                  "error": false
+                },
+                "conditionNodes": [
+                  {
+                    "nodeName": "条件1",
+                    "type": 3,
+                    "priorityLevel": 1,
+                    "settype": 1,
                     "selectMode": 0,
                     "selectRange": 0,
+                    "examineRoleId": 0,
                     "directorLevel": 1,
                     "replaceByUp": 0,
                     "examineMode": 1,
                     "noHanderAction": 2,
+                    "examineEndType": 0,
+                    "examineEndRoleId": 0,
                     "examineEndDirectorLevel": 1,
-                    "childNode": null,
-                    "nodeUserList": []
-                  },
-                  "conditionNodes": [
-                    {
-                      "nodeName": "条件3",
-                      "error": false,
-                      "type": 3,
+                    "ccSelfSelectFlag": 1,
+                    "conditionList": [
+                      {
+                        "columnId": 0,
+                        "type": 1,
+                        "conditionEn": "",
+                        "conditionCn": "",
+                        "optType": "",
+                        "zdy1": "",
+                        "zdy2": "",
+                        "opt1": "",
+                        "opt2": "",
+                        "columnDbname": "",
+                        "columnType": "",
+                        "showType": "",
+                        "showName": "",
+                        "fixedDownBoxValue": ""
+                      }
+                    ],
+                    "nodeUserList": [],
+                    "childNode": {
+                      "nodeName": "审核人",
+                      "type": 1,
                       "priorityLevel": 1,
-                      "conditionList": [
-                        {
-                          "type": 1,
-                          "columnId": 0,
-                          "showName": "发起人"
-                        }
-                      ],
+                      "settype": 1,
+                      "selectMode": 0,
+                      "selectRange": 0,
+                      "examineRoleId": 0,
+                      "directorLevel": 1,
+                      "replaceByUp": 0,
+                      "examineMode": 1,
+                      "noHanderAction": 2,
+                      "examineEndType": 0,
+                      "examineEndRoleId": 0,
+                      "examineEndDirectorLevel": 1,
+                      "ccSelfSelectFlag": 1,
+                      "conditionList": [],
                       "nodeUserList": [
                         {
+                          "targetId": 2515744,
                           "type": 1,
-                          "targetId": "53128111",
-                          "name": "亚nan"
+                          "name": "哈哈哈哈"
                         }
                       ],
-                      "childNode": {
-                        "nodeName": "审核人4",
-                        "error": false,
-                        "type": 1,
-                        "settype": 7,
-                        "selectMode": 0,
-                        "selectRange": 0,
-                        "directorLevel": 1,
-                        "replaceByUp": 0,
-                        "examineMode": 1,
-                        "noHanderAction": 2,
-                        "examineEndDirectorLevel": 1,
-                        "childNode": null,
-                        "nodeUserList": []
-                      }
-                    },
-                    {
-                      "nodeName": "条件4",
-                      "type": 3,
-                      "priorityLevel": 2,
-                      "conditionList": [],
-                      "nodeUserList": [],
-                      "childNode": {
-                        "nodeName": "审核人5",
-                        "error": false,
-                        "type": 1,
-                        "settype": 7,
-                        "selectMode": 0,
-                        "selectRange": 0,
-                        "directorLevel": 1,
-                        "replaceByUp": 0,
-                        "examineMode": 1,
-                        "noHanderAction": 2,
-                        "examineEndDirectorLevel": 1,
-                        "childNode": null,
-                        "nodeUserList": []
-                      },
+                      "childNode": null,
+                      "conditionNodes": [],
                       "error": false
-                    }
-                  ]
-                },
-                "conditionNodes": [],
-                "error": false
+                    },
+                    "conditionNodes": [],
+                    "error": false,
+                    "expressions": "test2=50"
+                  },
+                  {
+                    "nodeName": "条件2",
+                    "type": 3,
+                    "priorityLevel": 2,
+                    "settype": 1,
+                    "selectMode": 0,
+                    "selectRange": 0,
+                    "examineRoleId": 0,
+                    "directorLevel": 1,
+                    "replaceByUp": 0,
+                    "examineMode": 1,
+                    "noHanderAction": 2,
+                    "examineEndType": 0,
+                    "examineEndRoleId": 0,
+                    "examineEndDirectorLevel": 1,
+                    "ccSelfSelectFlag": 1,
+                    "conditionList": [],
+                    "nodeUserList": [],
+                    "childNode": null,
+                    "conditionNodes": [],
+                    "error": false,
+                    "expressions": "test2=60"
+                  }
+                ]
               },
-              "conditionNodes": [],
-              "error": false
+              "nodeUserList": [
+                {
+                  "type": 1,
+                  "targetId": "53128111",
+                  "name": "亚nan"
+                }
+              ]
             },
-            {
-              "nodeName": "条件2",
-              "type": 3,
-              "priorityLevel": 2,
+            "expressions": "test1=10"
+          },
+          {
+            "nodeName": "条件2",
+            "type": 3,
+            "priorityLevel": 2,
+            "conditionList": [],
+            "nodeUserList": [],
+            "childNode": {
+              "nodeName": "审核人",
+              "error": false,
+              "type": 1,
               "settype": 1,
               "selectMode": 0,
               "selectRange": 0,
-              "examineRoleId": 0,
               "directorLevel": 1,
               "replaceByUp": 0,
               "examineMode": 1,
-              "noHanderAction": 2,
-              "examineEndType": 0,
-              "examineEndRoleId": 0,
-              "examineEndDirectorLevel": 1,
-              "ccSelfSelectFlag": 1,
-              "conditionList": [],
-              "nodeUserList": [],
-              "childNode": {
-                "nodeName": "审核人3",
-                "error": false,
-                "type": 1,
-                "settype": 4,
-                "selectMode": 1,
-                "selectRange": 1,
-                "directorLevel": 1,
-                "replaceByUp": 0,
-                "examineMode": 1,
-                "noHanderAction": 2,
-                "examineEndDirectorLevel": 0,
-                "childNode": null,
-                "nodeUserList": []
-              },
-              "conditionNodes": [],
-              "error": false
-            }
-          ]
-        },
-        "nodeUserList": []
+              "noHanderAction": 1,
+              "examineEndDirectorLevel": 0,
+              "childNode": null,
+              "nodeUserList": [
+                {
+                  "type": 1,
+                  "targetId": "53128222",
+                  "name": "孟丽"
+                }
+              ],
+              "propertyList": {
+                "sqlString": "",
+                "jump": false
+              }
+            },
+            "expressions": "test1=12"
+          }
+        ]
       },
       "conditionNodes": []
-    }
+    },
+    "timestamp": 1604287716805
   }
 }

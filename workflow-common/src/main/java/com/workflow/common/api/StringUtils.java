@@ -14,4 +14,13 @@ public class StringUtils {
         }
         return false;
     }
+    public static boolean isNotEmpty(Object obj) {
+        if (obj != null)
+            return true;
+        if (obj instanceof String) {
+            String str = (String) obj;
+            return  !str.equals("") || !str.equals("null");
+        }
+        return false;
+    }
 }
