@@ -54,6 +54,6 @@ public class WorkFlowController {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
-        return CommonResult.success("");
+        return CommonResult.success("办理成功！");
     }
 }
