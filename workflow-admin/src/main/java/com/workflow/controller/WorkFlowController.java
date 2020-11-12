@@ -19,40 +19,43 @@ public class WorkFlowController {
     @Autowired
     private ActivityService activityService;
 
-    @PostMapping (value = "/saveDeployment")
+    @PostMapping(value = "/saveDeployment")
     @ApiOperation(value = "保存/修改流程定义")
     public CommonResult saveOrUpdateDeploy(String jsondata,
                                            Long deployid) {
         try {
-            activityService.saverOrUpdateDeployment(jsondata,deployid);
+            activityService.saverOrUpdateDeployment(jsondata, deployid);
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
         return CommonResult.success("生成成功");
     }
+
     @PostMapping(value = "/start")
     @ApiOperation(value = "启动流程")
-    public CommonResult startActivity(@RequestParam(value = "deployid",required = true) Long deployid,
-                                      @RequestParam(value = "formdata",required = true) String formdata,
-                                      @RequestParam(value="userid",required = true) String userid){
+    public CommonResult startActivity(@RequestParam(value = "deployid", required = true) Long deployid,
+                                      @RequestParam(value = "formdata", required = true) String formdata,
+                                      @RequestParam(value = "userid", required = true) String userid) {
         try {
-            activityService.startActivity(deployid,formdata,userid);
-        }catch (Exception e){
+            activityService.startActivity(deployid, formdata, userid);
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
         return CommonResult.success("启动成功");
     }
+
     @GetMapping(value = "/handle")
     @ApiOperation(value = "流程办理")
-    public CommonResult activityHandle(@RequestParam(value = "agentid",required = true) Long agentid,
-                                       @RequestParam(value="formdata",required = true) String formdata){
+    public CommonResult activityHandle(@RequestParam(value = "agentid", required = true) Long agentid,
+                                       @RequestParam(value = "formdata", required = true) String formdata) {
         try {
-            activityService.handleActivity(agentid,formdata);
-        }catch (Exception e){
+            activityService.handleActivity(agentid, formdata);
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
+
         }
         return CommonResult.success("办理成功！");
     }

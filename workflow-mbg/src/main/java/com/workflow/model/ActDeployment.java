@@ -1,10 +1,12 @@
 package com.workflow.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 
 public class ActDeployment implements Serializable {
+
     private Long id;
 
     private String name;

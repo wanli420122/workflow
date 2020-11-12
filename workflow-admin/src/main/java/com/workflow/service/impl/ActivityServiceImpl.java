@@ -87,7 +87,7 @@ public class ActivityServiceImpl implements ActivityService {
      * @param pid             节点父id
      *
      *
-     */
+
     public void getChildNodes(JSONObject node, Long actDeploymentid,
                               Long versionCode, Long pid) {
         Long dPid = saveDepDetial(node, actDeploymentid, versionCode, pid);
@@ -104,7 +104,7 @@ public class ActivityServiceImpl implements ActivityService {
             }
         }
 
-    }
+    } */
 
     /**
      * 递归查询所有childnode update 2020年10月14日17:04:48
@@ -516,6 +516,19 @@ public class ActivityServiceImpl implements ActivityService {
             String[] userids = childDeploy.getNodeuserlist().split(",");
             if (userids.length > 0) {
                 for (int i = 0; i < userids.length; i++) {
+                    //判断条件：发起人等于待办人跳过
+                    if (childDeploy.getJump()) {
+                        ActDeploymentdetialExample actDeploymentdetialExample=new ActDeploymentdetialExample();
+                        actDeploymentdetialExample.createCriteria()
+                                .andDeploymentidEqualTo(childDeploy.getDeploymentid())
+                                .andNodeversionEqualTo(childDeploy.getNodeversion())
+                                .andPidEqualTo(0l);
+                        List<ActDeploymentdetial> actDeploymentdetials = deploymentDetialMapper.selectByExample(actDeploymentdetialExample);
+                        String nodeuserlist = actDeploymentdetials.get(0).getNodeuserlist();
+                        if (nodeuserlist.equals(userids[i])) {
+                            continue;
+                        }
+                    }
                     actAgenting.setId(sfIdGenerator.nextId());
                     actAgenting.setUseid(userids[i]);
                     actAgenting.setTaskid(taskId);

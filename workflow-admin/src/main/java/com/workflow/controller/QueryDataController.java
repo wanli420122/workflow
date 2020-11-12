@@ -18,6 +18,7 @@ import java.util.List;
 @Api(tags = "QueryDataController", description = "工作流数据查询接口")
 @RequestMapping("/qdc")
 public class QueryDataController {
+
     @Autowired
     QueryDataService queryDataService;
 
@@ -45,7 +46,9 @@ public class QueryDataController {
     }
     @PostMapping(value = "/updateDeploy")
     @ApiOperation(value = "修改流程定义")
-    public CommonResult updateDeployment(@RequestBody ActDeployment actDeployment){
+    public CommonResult updateDeployment(@RequestBody ActDeployment actDeployment
+
+    ){
         try {
             queryDataService.updateDeployment(actDeployment);
             return CommonResult.success("修改成功");
@@ -56,9 +59,9 @@ public class QueryDataController {
     }
     @GetMapping(value = "/deleteDeploy")
     @ApiOperation(value = "删除流程定义")
-    public CommonResult updateDeployment(@RequestParam(value = "deployid",required = true) Long deployid){
+    public CommonResult updateDeployment(@RequestParam(value = "deployid",required = false) String deployid){
         try {
-            queryDataService.deleteDeployment(deployid);
+            queryDataService.deleteDeployment(Long.parseLong(deployid));
             return CommonResult.success("删除成功");
         }catch (Exception e){
             e.printStackTrace();
