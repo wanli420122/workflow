@@ -1,6 +1,7 @@
 package com.workflow.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ActExecutionTaskExample {
@@ -471,6 +472,66 @@ public class ActExecutionTaskExample {
 
         public Criteria andNodetypeNotBetween(Integer value1, Integer value2) {
             addCriterion("nodetype not between", value1, value2, "nodetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeIsNull() {
+            addCriterion("sendtime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeIsNotNull() {
+            addCriterion("sendtime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeEqualTo(Date value) {
+            addCriterion("sendtime =", value, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeNotEqualTo(Date value) {
+            addCriterion("sendtime <>", value, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeGreaterThan(Date value) {
+            addCriterion("sendtime >", value, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("sendtime >=", value, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeLessThan(Date value) {
+            addCriterion("sendtime <", value, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeLessThanOrEqualTo(Date value) {
+            addCriterion("sendtime <=", value, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeIn(List<Date> values) {
+            addCriterion("sendtime in", values, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeNotIn(List<Date> values) {
+            addCriterion("sendtime not in", values, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeBetween(Date value1, Date value2) {
+            addCriterion("sendtime between", value1, value2, "sendtime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendtimeNotBetween(Date value1, Date value2) {
+            addCriterion("sendtime not between", value1, value2, "sendtime");
             return (Criteria) this;
         }
     }

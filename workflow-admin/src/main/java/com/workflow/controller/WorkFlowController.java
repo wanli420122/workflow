@@ -4,8 +4,11 @@ import com.workflow.common.api.CommonResult;
 import com.workflow.service.ActivityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.management.modelmbean.RequiredModelMBean;
 
 /**
  * 工作流处理controller
@@ -49,9 +52,10 @@ public class WorkFlowController {
     @GetMapping(value = "/handle")
     @ApiOperation(value = "流程办理")
     public CommonResult activityHandle(@RequestParam(value = "agentid", required = true) Long agentid,
-                                       @RequestParam(value = "formdata", required = true) String formdata) {
+                                       @RequestParam(value = "formdata", required = true) String formdata,
+                                       @RequestParam(value="suggestStr", required=false) String suggestStr){
         try {
-            activityService.handleActivity(agentid, formdata);
+            activityService.handleActivity(agentid, formdata,suggestStr);
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());

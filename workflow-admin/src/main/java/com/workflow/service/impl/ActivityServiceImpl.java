@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.soap.Node;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +42,8 @@ public class ActivityServiceImpl implements ActivityService {
     private ActExecutionMapper actExecutionMapper;
 
     private static SnowflakeIdGenerator sfIdGenerator = new SnowflakeIdGenerator();
+
+    private static ThreadLocal<String> threadLocal=new ThreadLocal();
 
     /**
      * deployid不为空则为流程升版，原版本对应的流程实例保持不变
@@ -302,11 +301,13 @@ public class ActivityServiceImpl implements ActivityService {
      *
      * @param agentid
      * @param formdata
+     * @param suggestStr
      * @throws Exception
      */
     @Override
     @Transactional
-    public void handleActivity(Long agentid, String formdata) throws Exception {
+    public void handleActivity(Long agentid, String formdata, String suggestStr) throws Exception {
+        threadLocal.set(suggestStr);
         //表单信息
         String josnFormData = new String(Base64.decode(formdata), "utf-8");
         JSONObject jsonObject = JSONUtil.parseObj(josnFormData);
@@ -369,6 +370,7 @@ public class ActivityServiceImpl implements ActivityService {
                 .selectByExample(actExecutionTaskExample)
                 .get(0);
         actExecutionTasks.setNodestatus(ExectStatus.COMPLETION.getStatus());
+        actExecutionTasks.setSendtime(OnlyCode.getCurrentTime());
         actExecutionTaskMapper.updateByPrimaryKey(actExecutionTasks);
         ActDeploymentdetialExample actDeploymentdetialExample = new ActDeploymentdetialExample();
         actDeploymentdetialExample.createCriteria().andDeploymentidEqualTo(depDetial.getDeploymentid()).andNodeversionEqualTo(depDetial.getNodeversion());
@@ -517,7 +519,7 @@ public class ActivityServiceImpl implements ActivityService {
             if (userids.length > 0) {
                 for (int i = 0; i < userids.length; i++) {
                     //判断条件：发起人等于待办人跳过
-                    if (childDeploy.getJump()) {
+                    if (childDeploy.getJump()!=null && childDeploy.getJump()) {
                         ActDeploymentdetialExample actDeploymentdetialExample=new ActDeploymentdetialExample();
                         actDeploymentdetialExample.createCriteria()
                                 .andDeploymentidEqualTo(childDeploy.getDeploymentid())
@@ -535,6 +537,8 @@ public class ActivityServiceImpl implements ActivityService {
                     actAgenting.setAgentingstatus(AgentStatus.NODOING.getStatus());
                     actAgenting.setStarttime(OnlyCode.getCurrentTime());
                     actAgenting.setNownodeid(childDeploy.getId());
+                    actAgenting.setSuggeststr(threadLocal.get());
+                    actAgenting.setNodeversion(childDeploy.getNodeversion());
                     actAgentingMapper.insert(actAgenting);
                 }
             }

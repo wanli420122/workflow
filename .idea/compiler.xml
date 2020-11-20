@@ -12,9 +12,13 @@
         <module name="workflow-mbg" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="dubbo_provider" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="dubbo_provider" options="-parameters" />
       <module name="workflow" options="-parameters" />
       <module name="workflow-admin" options="-parameters" />
       <module name="workflow-common" options="-parameters" />

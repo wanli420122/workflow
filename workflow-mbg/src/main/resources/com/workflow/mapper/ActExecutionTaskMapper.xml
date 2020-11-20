@@ -8,6 +8,7 @@
     <result column="nodename" jdbcType="VARCHAR" property="nodename" />
     <result column="nodestatus" jdbcType="INTEGER" property="nodestatus" />
     <result column="nodetype" jdbcType="INTEGER" property="nodetype" />
+    <result column="sendtime" jdbcType="TIMESTAMP" property="sendtime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, executionid, deploymentdetialid, nodename, nodestatus, nodetype
+    id, executionid, deploymentdetialid, nodename, nodestatus, nodetype, sendtime
   </sql>
   <select id="selectByExample" parameterType="com.workflow.model.ActExecutionTaskExample" resultMap="BaseResultMap">
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.workflow.model.ActExecutionTask">
     insert into act_execution_task (id, executionid, deploymentdetialid, 
-      nodename, nodestatus, nodetype
-      )
+      nodename, nodestatus, nodetype, 
+      sendtime)
     values (#{id,jdbcType=BIGINT}, #{executionid,jdbcType=BIGINT}, #{deploymentdetialid,jdbcType=BIGINT}, 
-      #{nodename,jdbcType=VARCHAR}, #{nodestatus,jdbcType=INTEGER}, #{nodetype,jdbcType=INTEGER}
-      )
+      #{nodename,jdbcType=VARCHAR}, #{nodestatus,jdbcType=INTEGER}, #{nodetype,jdbcType=INTEGER}, 
+      #{sendtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.workflow.model.ActExecutionTask">
     insert into act_execution_task
@@ -129,6 +130,9 @@
       <if test="nodetype != null">
         nodetype,
       </if>
+      <if test="sendtime != null">
+        sendtime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -148,6 +152,9 @@
       </if>
       <if test="nodetype != null">
         #{nodetype,jdbcType=INTEGER},
+      </if>
+      <if test="sendtime != null">
+        #{sendtime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.nodetype != null">
         nodetype = #{record.nodetype,jdbcType=INTEGER},
       </if>
+      <if test="record.sendtime != null">
+        sendtime = #{record.sendtime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       deploymentdetialid = #{record.deploymentdetialid,jdbcType=BIGINT},
       nodename = #{record.nodename,jdbcType=VARCHAR},
       nodestatus = #{record.nodestatus,jdbcType=INTEGER},
-      nodetype = #{record.nodetype,jdbcType=INTEGER}
+      nodetype = #{record.nodetype,jdbcType=INTEGER},
+      sendtime = #{record.sendtime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="nodetype != null">
         nodetype = #{nodetype,jdbcType=INTEGER},
       </if>
+      <if test="sendtime != null">
+        sendtime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -222,7 +236,8 @@
       deploymentdetialid = #{deploymentdetialid,jdbcType=BIGINT},
       nodename = #{nodename,jdbcType=VARCHAR},
       nodestatus = #{nodestatus,jdbcType=INTEGER},
-      nodetype = #{nodetype,jdbcType=INTEGER}
+      nodetype = #{nodetype,jdbcType=INTEGER},
+      sendtime = #{sendtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

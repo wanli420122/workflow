@@ -3,6 +3,8 @@ package com.workflow.mapper;
 import com.workflow.model.ActAgenting;
 import com.workflow.model.ActAgentingExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ActAgentingMapper {
@@ -27,4 +29,8 @@ public interface ActAgentingMapper {
     int updateByPrimaryKeySelective(ActAgenting record);
 
     int updateByPrimaryKey(ActAgenting record);
+
+    List<Map> queryAgentingAllLists(String flag);
+
+    List<Map> queryAgentingLists(String userid, String flag);
 }

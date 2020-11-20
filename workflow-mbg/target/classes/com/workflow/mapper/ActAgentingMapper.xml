@@ -10,6 +10,8 @@
     <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
     <result column="endtime" jdbcType="TIMESTAMP" property="endtime" />
     <result column="nownodeid" jdbcType="BIGINT" property="nownodeid" />
+    <result column="nodeversion" jdbcType="BIGINT" property="nodeversion" />
+    <result column="suggeststr" jdbcType="VARCHAR" property="suggeststr" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, taskid, useid, agentingstatus, agentingsign, starttime, endtime, nownodeid
+    id, taskid, useid, agentingstatus, agentingsign, starttime, endtime, nownodeid, nodeversion, 
+    suggeststr
   </sql>
   <select id="selectByExample" parameterType="com.workflow.model.ActAgentingExample" resultMap="BaseResultMap">
     select
@@ -105,10 +108,12 @@
   <insert id="insert" parameterType="com.workflow.model.ActAgenting">
     insert into act_agenting (id, taskid, useid, 
       agentingstatus, agentingsign, starttime, 
-      endtime, nownodeid)
+      endtime, nownodeid, nodeversion, 
+      suggeststr)
     values (#{id,jdbcType=BIGINT}, #{taskid,jdbcType=BIGINT}, #{useid,jdbcType=VARCHAR}, 
       #{agentingstatus,jdbcType=INTEGER}, #{agentingsign,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, 
-      #{endtime,jdbcType=TIMESTAMP}, #{nownodeid,jdbcType=BIGINT})
+      #{endtime,jdbcType=TIMESTAMP}, #{nownodeid,jdbcType=BIGINT}, #{nodeversion,jdbcType=BIGINT}, 
+      #{suggeststr,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.workflow.model.ActAgenting">
     insert into act_agenting
@@ -137,6 +142,12 @@
       <if test="nownodeid != null">
         nownodeid,
       </if>
+      <if test="nodeversion != null">
+        nodeversion,
+      </if>
+      <if test="suggeststr != null">
+        suggeststr,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -162,6 +173,12 @@
       </if>
       <if test="nownodeid != null">
         #{nownodeid,jdbcType=BIGINT},
+      </if>
+      <if test="nodeversion != null">
+        #{nodeversion,jdbcType=BIGINT},
+      </if>
+      <if test="suggeststr != null">
+        #{suggeststr,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +215,12 @@
       <if test="record.nownodeid != null">
         nownodeid = #{record.nownodeid,jdbcType=BIGINT},
       </if>
+      <if test="record.nodeversion != null">
+        nodeversion = #{record.nodeversion,jdbcType=BIGINT},
+      </if>
+      <if test="record.suggeststr != null">
+        suggeststr = #{record.suggeststr,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +235,9 @@
       agentingsign = #{record.agentingsign,jdbcType=INTEGER},
       starttime = #{record.starttime,jdbcType=TIMESTAMP},
       endtime = #{record.endtime,jdbcType=TIMESTAMP},
-      nownodeid = #{record.nownodeid,jdbcType=BIGINT}
+      nownodeid = #{record.nownodeid,jdbcType=BIGINT},
+      nodeversion = #{record.nodeversion,jdbcType=BIGINT},
+      suggeststr = #{record.suggeststr,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +266,12 @@
       <if test="nownodeid != null">
         nownodeid = #{nownodeid,jdbcType=BIGINT},
       </if>
+      <if test="nodeversion != null">
+        nodeversion = #{nodeversion,jdbcType=BIGINT},
+      </if>
+      <if test="suggeststr != null">
+        suggeststr = #{suggeststr,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -252,7 +283,9 @@
       agentingsign = #{agentingsign,jdbcType=INTEGER},
       starttime = #{starttime,jdbcType=TIMESTAMP},
       endtime = #{endtime,jdbcType=TIMESTAMP},
-      nownodeid = #{nownodeid,jdbcType=BIGINT}
+      nownodeid = #{nownodeid,jdbcType=BIGINT},
+      nodeversion = #{nodeversion,jdbcType=BIGINT},
+      suggeststr = #{suggeststr,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -1,6 +1,5 @@
 package com.workflow.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +20,10 @@ public class ActAgenting implements Serializable {
     private Date endtime;
 
     private Long nownodeid;
+
+    private Long nodeversion;
+
+    private String suggeststr;
 
     private static final long serialVersionUID = 1L;
 
@@ -88,6 +91,22 @@ public class ActAgenting implements Serializable {
         this.nownodeid = nownodeid;
     }
 
+    public Long getNodeversion() {
+        return nodeversion;
+    }
+
+    public void setNodeversion(Long nodeversion) {
+        this.nodeversion = nodeversion;
+    }
+
+    public String getSuggeststr() {
+        return suggeststr;
+    }
+
+    public void setSuggeststr(String suggeststr) {
+        this.suggeststr = suggeststr;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -102,6 +121,8 @@ public class ActAgenting implements Serializable {
         sb.append(", starttime=").append(starttime);
         sb.append(", endtime=").append(endtime);
         sb.append(", nownodeid=").append(nownodeid);
+        sb.append(", nodeversion=").append(nodeversion);
+        sb.append(", suggeststr=").append(suggeststr);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

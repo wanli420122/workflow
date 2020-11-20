@@ -1,8 +1,8 @@
 package com.workflow.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.Date;
 
 public class ActExecutionTask implements Serializable {
     private Long id;
@@ -16,6 +16,8 @@ public class ActExecutionTask implements Serializable {
     private Integer nodestatus;
 
     private Integer nodetype;
+
+    private Date sendtime;
 
     private static final long serialVersionUID = 1L;
 
@@ -67,6 +69,14 @@ public class ActExecutionTask implements Serializable {
         this.nodetype = nodetype;
     }
 
+    public Date getSendtime() {
+        return sendtime;
+    }
+
+    public void setSendtime(Date sendtime) {
+        this.sendtime = sendtime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -79,6 +89,7 @@ public class ActExecutionTask implements Serializable {
         sb.append(", nodename=").append(nodename);
         sb.append(", nodestatus=").append(nodestatus);
         sb.append(", nodetype=").append(nodetype);
+        sb.append(", sendtime=").append(sendtime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

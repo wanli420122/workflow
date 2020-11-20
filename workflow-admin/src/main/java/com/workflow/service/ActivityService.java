@@ -5,5 +5,5 @@ public interface ActivityService {
 
     void startActivity(Long deployid, String formData, String userid) throws  Exception;
 
-    void handleActivity(Long agentid, String formdata)throws Exception;
+    void handleActivity(Long agentid, String formdata, String suggestStr)throws Exception;
 }

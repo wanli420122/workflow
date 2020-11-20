@@ -594,6 +594,136 @@ public class ActAgentingExample {
             addCriterion("nownodeid not between", value1, value2, "nownodeid");
             return (Criteria) this;
         }
+
+        public Criteria andNodeversionIsNull() {
+            addCriterion("nodeversion is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionIsNotNull() {
+            addCriterion("nodeversion is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionEqualTo(Long value) {
+            addCriterion("nodeversion =", value, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionNotEqualTo(Long value) {
+            addCriterion("nodeversion <>", value, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionGreaterThan(Long value) {
+            addCriterion("nodeversion >", value, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionGreaterThanOrEqualTo(Long value) {
+            addCriterion("nodeversion >=", value, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionLessThan(Long value) {
+            addCriterion("nodeversion <", value, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionLessThanOrEqualTo(Long value) {
+            addCriterion("nodeversion <=", value, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionIn(List<Long> values) {
+            addCriterion("nodeversion in", values, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionNotIn(List<Long> values) {
+            addCriterion("nodeversion not in", values, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionBetween(Long value1, Long value2) {
+            addCriterion("nodeversion between", value1, value2, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeversionNotBetween(Long value1, Long value2) {
+            addCriterion("nodeversion not between", value1, value2, "nodeversion");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrIsNull() {
+            addCriterion("suggeststr is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrIsNotNull() {
+            addCriterion("suggeststr is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrEqualTo(String value) {
+            addCriterion("suggeststr =", value, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrNotEqualTo(String value) {
+            addCriterion("suggeststr <>", value, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrGreaterThan(String value) {
+            addCriterion("suggeststr >", value, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrGreaterThanOrEqualTo(String value) {
+            addCriterion("suggeststr >=", value, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrLessThan(String value) {
+            addCriterion("suggeststr <", value, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrLessThanOrEqualTo(String value) {
+            addCriterion("suggeststr <=", value, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrLike(String value) {
+            addCriterion("suggeststr like", value, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrNotLike(String value) {
+            addCriterion("suggeststr not like", value, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrIn(List<String> values) {
+            addCriterion("suggeststr in", values, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrNotIn(List<String> values) {
+            addCriterion("suggeststr not in", values, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrBetween(String value1, String value2) {
+            addCriterion("suggeststr between", value1, value2, "suggeststr");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuggeststrNotBetween(String value1, String value2) {
+            addCriterion("suggeststr not between", value1, value2, "suggeststr");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
