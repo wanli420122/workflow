@@ -18,4 +18,6 @@ public interface QueryDataService {
     List<Map> queryTaskLists(String userid, String flag)throws Exception;
 
     List<Map> queryExectionNodes(String agentingid);
+
+    int queryTaskStatus(String agentingid);
 }

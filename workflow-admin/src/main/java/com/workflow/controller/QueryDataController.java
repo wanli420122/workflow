@@ -106,4 +106,19 @@ public class QueryDataController {
             return CommonResult.failed(e.getMessage());
         }
     }
+    @GetMapping(value = "/queryTaskStatus")
+    @ApiOperation(value = "查询流程跟踪任务状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "agentingid", dataType = "String",
+                    required = true, value = "待办/已办id")
+    })
+    public CommonResult queryTaskStatus(@RequestParam(value="agentingid",required = true) String agentingid){
+        try {
+            int taskStatus=queryDataService.queryTaskStatus(agentingid);
+            return CommonResult.success(taskStatus);
+        }catch (Exception e){
+            e.printStackTrace();
+            return CommonResult.failed(e.getMessage());
+        }
+    }
 }

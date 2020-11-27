@@ -288,4 +288,27 @@
       suggeststr = #{suggeststr,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="queryAgentingLists" parameterType="java.lang.String" resultType="java.util.Map">
+      SELECT aa.id as agentingid,(select nodename from act_deploymentdetial where id=aa.nownodeid) as nodename,
+      (select b.name
+      from act_deploymentdetial a join act_deployment b on
+      a.deploymentid=b.id
+      where a.id=aa.nownodeid) as taskname,
+      (select userid from act_execution where id=aa.taskid )as userid,
+      aa.starttime,
+      aa.endtime
+      FROM act_agenting aa where aa.useid=#{userid,jdbcType=VARCHAR}
+      and aa.agentingstatus=#{flag,jdbcType=VARCHAR}
+  </select>
+  <select id="queryAgentingAllLists" parameterType="java.lang.String" resultType="java.util.Map">
+      SELECT aa.id as agentingid,(select nodename from act_deploymentdetial where id=aa.nownodeid) as nodename,
+      (select b.name
+      from act_deploymentdetial a join act_deployment b on
+      a.deploymentid=b.id
+      where a.id=aa.nownodeid) as taskname,
+      (select userid from act_execution where id=aa.taskid )as userid,
+      aa.starttime,
+      aa.endtime
+      FROM act_agenting aa where aa.agentingstatus=#{flag,jdbcType=VARCHAR}
+  </select>
 </mapper>

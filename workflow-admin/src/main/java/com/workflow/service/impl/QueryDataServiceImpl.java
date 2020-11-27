@@ -5,6 +5,7 @@ import com.workflow.common.uuid.SnowflakeIdGenerator;
 import com.workflow.exception.ActivityException;
 import com.workflow.mapper.ActAgentingMapper;
 import com.workflow.mapper.ActDeploymentMapper;
+import com.workflow.mapper.ActExecutionMapper;
 import com.workflow.mapper.ActExecutionTaskMapper;
 import com.workflow.model.*;
 import com.workflow.service.QueryDataService;
@@ -33,6 +34,9 @@ public class QueryDataServiceImpl implements QueryDataService {
 
     @Autowired
     ActExecutionTaskMapper actExecutionTaskMapper;
+
+    @Autowired
+    ActExecutionMapper actExecutionMapper;
 
     @Override
     public List<ActDeployment> queryDeplymentList() throws Exception {
@@ -96,9 +100,11 @@ public class QueryDataServiceImpl implements QueryDataService {
                 actAgentingExample.createCriteria().andTaskidEqualTo(actExecutionTasks.get(i).getExecutionid())
                         .andNownodeidEqualTo(actExecutionTasks.get(i).getDeploymentdetialid());
                 List<ActAgenting> actAgentings = actAgentingMapper.selectByExample(actAgentingExample);
-                m.put("nodeName",actExecutionTasks.get(i).getNodename());
-                m.put("nodeStatus",actExecutionTasks.get(i).getNodestatus());
-                m.put("nodeType",actExecutionTasks.get(i).getNodetype());
+                ActExecutionTask tasks=actExecutionTasks.get(i);
+                m.put("nodeName",tasks.getNodename());
+                m.put("nodeStatus",tasks.getNodestatus());
+                m.put("nodeType",tasks.getNodetype());
+                m.put("sendTime",tasks.getSendtime());
                 for (int j = 0; j <actAgentings.size() ; j++) {
                     ActAgenting agenting=actAgentings.get(j);
                     Map<String,Object> amap=new HashMap<>();
@@ -115,5 +121,16 @@ public class QueryDataServiceImpl implements QueryDataService {
             }
         }
         return nodes;
+    }
+
+    @Override
+    public int queryTaskStatus(String agentingid) {
+        if (!StringUtils.isEmpty(agentingid)) {
+            ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(Long.parseLong(agentingid));
+            ActExecution execution = actExecutionMapper.selectByPrimaryKey(actAgenting.getTaskid());
+            return execution.getStatus();
+        }else{
+            throw new ActivityException("agentingid为空，请检查!");
+        }
     }
 }
