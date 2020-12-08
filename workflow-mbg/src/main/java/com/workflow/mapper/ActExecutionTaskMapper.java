@@ -27,4 +27,8 @@ public interface ActExecutionTaskMapper {
     int updateByPrimaryKeySelective(ActExecutionTask record);
 
     int updateByPrimaryKey(ActExecutionTask record);
+
+    void deleteNoCompleteNode(Long execId);
+
+    void updateNodeStatus(Long id);
 }

@@ -295,6 +295,7 @@
       a.deploymentid=b.id
       where a.id=aa.nownodeid) as taskname,
       (select userid from act_execution where id=aa.taskid )as userid,
+      (select formid from act_execution where id=aa.taskid ) as formid,
       aa.starttime,
       aa.endtime
       FROM act_agenting aa where aa.useid=#{userid,jdbcType=VARCHAR}
@@ -307,8 +308,12 @@
       a.deploymentid=b.id
       where a.id=aa.nownodeid) as taskname,
       (select userid from act_execution where id=aa.taskid )as userid,
+      (select formid from act_execution where id=aa.taskid ) as formid,
       aa.starttime,
       aa.endtime
       FROM act_agenting aa where aa.agentingstatus=#{flag,jdbcType=VARCHAR}
   </select>
+  <delete id="deleteNoCompleteTask" parameterType="java.lang.Long">
+    delete from act_agenting where taskid=#{taskid,jdbcType=BIGINT} and agentingstatus=0
+  </delete>
 </mapper>

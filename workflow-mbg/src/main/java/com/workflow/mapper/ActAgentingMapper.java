@@ -33,4 +33,6 @@ public interface ActAgentingMapper {
     List<Map> queryAgentingAllLists(String flag);
 
     List<Map> queryAgentingLists(String userid, String flag);
+
+    void deleteNoCompleteTask(Long taskid);
 }

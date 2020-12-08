@@ -133,4 +133,14 @@ public class QueryDataServiceImpl implements QueryDataService {
             throw new ActivityException("agentingid为空，请检查!");
         }
     }
+
+    @Override
+    public List<ActExecutionTask> queryCanRejectNode(String agentingid) throws Exception {
+        ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(Long.parseLong(agentingid));
+        Long taskid = actAgenting.getTaskid();
+        ActExecutionTaskExample actExecutionTaskExample=new ActExecutionTaskExample();
+        actExecutionTaskExample.createCriteria().andExecutionidEqualTo(taskid).andNodestatusEqualTo(1);
+        List<ActExecutionTask> tasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
+        return tasks;
+    }
 }

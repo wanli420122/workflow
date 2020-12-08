@@ -38,9 +38,9 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("工作流后台系统")
-                .description("工作流后台模块")
-                .contact("workflow")
+                .title("工作流引擎")
+                .description("工作流引擎接口文档")
+                .contact("wanli")
                 .version("1.0")
                 .build();
     }

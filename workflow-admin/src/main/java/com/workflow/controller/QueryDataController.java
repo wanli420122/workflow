@@ -3,6 +3,7 @@ package com.workflow.controller;
 import com.workflow.common.api.CommonResult;
 import com.workflow.model.ActAgenting;
 import com.workflow.model.ActDeployment;
+import com.workflow.model.ActExecutionTask;
 import com.workflow.service.QueryDataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -28,50 +29,66 @@ public class QueryDataController {
 
     @GetMapping(value = "/queryDeploylist")
     @ApiOperation(value = "查询流程定义列表")
-    public CommonResult getActList(){
+    public CommonResult getActList() {
         try {
-            List<ActDeployment> deployments= queryDataService.queryDeplymentList();
+            List<ActDeployment> deployments = queryDataService.queryDeplymentList();
             return CommonResult.success(deployments);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
     }
+
     @PostMapping(value = "/addDeploy")
     @ApiOperation(value = "新增流程定义")
-    public CommonResult addDeployment(@RequestBody ActDeployment actDeployment){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "actDeployment", dataType = "ActDeployment",
+                    required = true, value = "流程定义bean")
+    })
+    public CommonResult addDeployment(@RequestBody ActDeployment actDeployment) {
         try {
             queryDataService.addDeployment(actDeployment);
             return CommonResult.success("保存成功");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
     }
+
     @PostMapping(value = "/updateDeploy")
     @ApiOperation(value = "修改流程定义")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "actDeployment", dataType = "ActDeployment",
+                    required = true, value = "流程定义bean")
+    })
     public CommonResult updateDeployment(@RequestBody ActDeployment actDeployment
 
-    ){
+    ) {
         try {
             queryDataService.updateDeployment(actDeployment);
             return CommonResult.success("修改成功");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
     }
+
     @GetMapping(value = "/deleteDeploy")
     @ApiOperation(value = "删除流程定义")
-    public CommonResult deleteDeployment(@RequestParam(value = "deployid",required = false) String deployid){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "deployid", dataType = "String",
+                    required = true, value = "流程定义id")
+    })
+    public CommonResult deleteDeployment(@RequestParam(value = "deployid", required = false) String deployid) {
         try {
             queryDataService.deleteDeployment(Long.parseLong(deployid));
             return CommonResult.success("删除成功");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
     }
+
     @GetMapping(value = "/queryTaskLists")
     @ApiOperation(value = "查询待办/已办任务")
     @ApiImplicitParams({
@@ -80,12 +97,12 @@ public class QueryDataController {
             @ApiImplicitParam(paramType = "query", name = "flag", dataType = "String",
                     required = true, value = "待办已办状态 0-待办 ，1-已办")
     })
-    public CommonResult queryTaskLists(@RequestParam(value = "userid",required = false) String userid,
-                                       @RequestParam(value = "flag",required = false) String flag){
+    public CommonResult queryTaskLists(@RequestParam(value = "userid", required = false) String userid,
+                                       @RequestParam(value = "flag", required = false) String flag) {
         try {
-            List<Map> actAgentings=queryDataService.queryTaskLists(userid,flag);
+            List<Map> actAgentings = queryDataService.queryTaskLists(userid, flag);
             return CommonResult.success(actAgentings);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
@@ -97,28 +114,46 @@ public class QueryDataController {
             @ApiImplicitParam(paramType = "query", name = "agentingid", dataType = "String",
                     required = true, value = "待办/已办id")
     })
-    public CommonResult queryExectionNode(@RequestParam(value="agentingid",required = true) String agentingid){
+    public CommonResult queryExectionNode(@RequestParam(value = "agentingid", required = true) String agentingid) {
         try {
-            List<Map> actAgentings=queryDataService.queryExectionNodes(agentingid);
+            List<Map> actAgentings = queryDataService.queryExectionNodes(agentingid);
             return CommonResult.success(actAgentings);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
     }
+
     @GetMapping(value = "/queryTaskStatus")
     @ApiOperation(value = "查询流程跟踪任务状态")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "agentingid", dataType = "String",
                     required = true, value = "待办/已办id")
     })
-    public CommonResult queryTaskStatus(@RequestParam(value="agentingid",required = true) String agentingid){
+    public CommonResult queryTaskStatus(@RequestParam(value = "agentingid", required = true) String agentingid) {
         try {
-            int taskStatus=queryDataService.queryTaskStatus(agentingid);
+            int taskStatus = queryDataService.queryTaskStatus(agentingid);
             return CommonResult.success(taskStatus);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
         }
     }
+
+    @GetMapping(value = "/queryCanRejectNode")
+    @ApiOperation(value = "查询可驳回的环节信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "agentingid", dataType = "String",
+                    required = true, value = "待办/已办id")
+    })
+    public CommonResult queryCanRejectNode(@RequestParam(value = "agentingid", required = true) String agentingid) {
+        try {
+            List<ActExecutionTask> tasks = queryDataService.queryCanRejectNode(agentingid);
+            return CommonResult.success(tasks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+
 }
