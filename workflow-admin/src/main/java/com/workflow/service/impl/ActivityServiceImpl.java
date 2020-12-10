@@ -146,8 +146,9 @@ public class ActivityServiceImpl implements ActivityService {
         //保存任务，返回任务id
         long taskId = saveExecutionSimple(deployid, (String) jsonObject.get("formid"), userid);
         //查找流程实例，开始发送待办任务
+        ActDeployment actDeployment = deploymentMapper.selectByPrimaryKey(deployid);
         ActDeploymentdetialExample detialExample = new ActDeploymentdetialExample();
-        detialExample.createCriteria().andDeploymentidEqualTo(deployid);
+        detialExample.createCriteria().andDeploymentidEqualTo(deployid).andNodeversionEqualTo(actDeployment.getVersioncode());
         List<ActDeploymentdetial> detials = deploymentDetialMapper.selectByExample(detialExample);
         //获取发起人节点id
         Long rootId = detials.stream()
