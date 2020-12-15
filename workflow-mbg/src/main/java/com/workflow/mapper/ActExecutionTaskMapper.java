@@ -31,4 +31,6 @@ public interface ActExecutionTaskMapper {
     void deleteNoCompleteNode(Long execId);
 
     void updateNodeStatus(Long id);
+
+    void updateStatusComplete(Long id);
 }

@@ -67,7 +67,7 @@ public class WorkFlowController {
         return CommonResult.success("启动成功");
     }
 
-    @GetMapping(value = "/handle")
+    @PostMapping(value = "/handle")
     @ApiOperation(value = "流程办理")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "agentid", dataType = "Long",

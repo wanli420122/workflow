@@ -93,6 +93,8 @@ public class QueryDataServiceImpl implements QueryDataService {
             actExecutionTaskExample.createCriteria().andExecutionidEqualTo(actAgenting.getTaskid())
                     .andNodetypeNotEqualTo(4);
             List<ActExecutionTask> actExecutionTasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
+            ActExecution execution = actExecutionMapper.selectByPrimaryKey(actAgenting.getTaskid());
+            putStartNode(nodes,execution);
             for (int i = 0; i < actExecutionTasks.size(); i++) {
                 Map<String,Object> m=new HashMap<>();
                 List<Map> actlists=new ArrayList<>();
@@ -121,6 +123,24 @@ public class QueryDataServiceImpl implements QueryDataService {
             }
         }
         return nodes;
+    }
+
+    //加入发起人信息
+    private void putStartNode(List<Map> nodes, ActExecution execution) {
+        Map rootMap=new HashMap();
+        Map rootUsers=new HashMap();
+        List<Map> rootlist=new ArrayList<>();
+        rootMap.put("nodeName","发起申请");
+        rootMap.put("nodeStatus",1);
+        rootMap.put("nodeType",0);
+        rootMap.put("sendTime",execution.getStarttime());
+        rootUsers.put("userid",execution.getUserid());
+        rootUsers.put("startTime",execution.getStarttime());
+        rootUsers.put("endTime",execution.getStarttime());
+        rootUsers.put("agentingStatus",1);
+        rootlist.add(rootUsers);
+        rootMap.put("nodeDetails",rootlist);
+        nodes.add(rootMap);
     }
 
     @Override

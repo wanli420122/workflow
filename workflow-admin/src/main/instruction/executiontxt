@@ -1,0 +1,32 @@
+# -t 表示指定镜像仓库名称/镜像名称:镜像标签 .表示使用当前目录下的Dockerfile
+docker build -t mall-tiny/mall-tiny-docker-file:0.0.1-SNAPSHOT .
+# 从docker中查询mysql的镜像
+docker search mysql
+# 从docker中拉取mysql基础镜像
+docker pull mysql:5.7
+#使用docker命令启动：
+docker run -p 3306:3306 --name mysql \
+-v /mydata/mysql/log:/var/log/mysql \
+-v /mydata/mysql/data:/var/lib/mysql \
+-v /mydata/mysql/conf:/etc/mysql \
+-e MYSQL_ROOT_PASSWORD=root  \
+-d mysql:5.7
+#进入mysql容器
+docker exec -it mysql /bin/bash
+#打开mysql客户端
+mysql -uroot -proot --default-character-set=utf8
+#修改root帐号的权限，使得任何ip都能访问
+grant all privileges on *.* to 'root'@'%'
+#创建数据库
+create database * character set utf8
+#将sql文件拷贝到mysql容器
+docker cp /mydata/*.sql mysql:/
+#将sql文件导入到数据库
+use *;
+source /*.sql;
+#启动应用，mysql容器
+docker run -p 8080:8080 --name mall-tiny-docker-file \
+--link mysql:db \
+-v /etc/localtime:/etc/localtime \
+-v /mydata/app/mall-tiny-docker-file/logs:/var/logs \
+-d mall-tiny/mall-tiny-docker-file:0.0.1-SNAPSHOT

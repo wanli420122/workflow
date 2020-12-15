@@ -141,8 +141,8 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public void startActivity(Long deployid, String formData, String userid) throws Exception {
         //表单信息
-        String josnFormData = new String(Base64.decode(formData), "utf-8");
-        JSONObject jsonObject = JSONUtil.parseObj(josnFormData);
+       // String josnFormData = new String(Base64.decode(formData), "utf-8");
+        JSONObject jsonObject = JSONUtil.parseObj(formData);
         //保存任务，返回任务id
         long taskId = saveExecutionSimple(deployid, (String) jsonObject.get("formid"), userid);
         //查找流程实例，开始发送待办任务
@@ -183,15 +183,15 @@ public class ActivityServiceImpl implements ActivityService {
                 insertExecutAndAgentList(childDeploy, taskId);
 
             } else if (childDeploy.getNodetype().equals(NodeTpye.COPYER.getType())) {
-
                 insertExecutAndAgentList(childDeploy, taskId);
 
                 List<ActDeploymentdetial> copyers = detials.stream()
                         .filter(route -> route.getPid().equals(childDeploy.getId()))
                         .collect(Collectors.toList());
-                if (copyers.size() > 0)
+                if (copyers.size() > 0) {
+
                     queryNextAndSendTask(detials, copyers.get(0), taskId, jsonObject);
-                else
+                }else
                     queryNextAndSendTask(detials, null, taskId, jsonObject);
 
             } else if (childDeploy.getNodetype().equals(NodeTpye.ROUTE.getType())) {
@@ -204,7 +204,8 @@ public class ActivityServiceImpl implements ActivityService {
                 for (int i = 0; i < conditions.size(); i++) {
                     ActDeploymentdetial adm = conditions.get(i);
                     String conditionExpress = adm.getConditionnodes();
-                    if (comparatoExpress(conditionExpress, jsonObject)) {
+                    //如果条件判断成功则修改环节状态，待办状态，并查找下一环节,
+                    if (StringUtils.isNotEmpty(conditionExpress) && comparatoExpress(conditionExpress, jsonObject)) {
                         ActDeploymentdetial deploymentdetial = detials.stream()
                                 .filter(filterNode -> filterNode.getPid().equals(adm.getId()))
                                 .collect(Collectors.toList())
@@ -312,11 +313,14 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     @Transactional
     public void handleActivity(Long agentid, String formdata, String suggestStr, int flag, String rejectToNode) throws Exception {
+        //表单信息
+        //String josnFormData = new String(Base64.decode(formdata), "utf-8");
+        JSONObject jsonObject = JSONUtil.parseObj(formdata);
         if (flag==HandleFlag.PASS.getCode()) {
-            handlePass(agentid, formdata, suggestStr);
+            handlePass(agentid, jsonObject, suggestStr);
         }
         if (flag== HandleFlag.REJECT.getCode()) {
-            handleReject(agentid, formdata, suggestStr,rejectToNode);
+            handleReject(agentid,rejectToNode);
         }
     }
 
@@ -326,13 +330,9 @@ public class ActivityServiceImpl implements ActivityService {
      * 并且驳回后，所有还未完成的环节包括
      * 环节对于的待办任务需要删除
      * @param agentid
-     * @param formdata
-     * @param suggestStr
      * @param rejectToNode
      */
-    private void handleReject(Long agentid, String formdata, String suggestStr, String rejectToNode) throws Exception {
-        String josnFormData = new String(Base64.decode(formdata), "utf-8");
-        JSONObject jsonObject = JSONUtil.parseObj(josnFormData);
+    private void handleReject(Long agentid,String rejectToNode) throws Exception {
         ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(agentid);
         if (StringUtils.isNotEmpty(actAgenting)) {
             Long taskid = actAgenting.getTaskid();
@@ -362,18 +362,15 @@ public class ActivityServiceImpl implements ActivityService {
      * @param suggestStr
      * @throws Exception
      */
-    private void handlePass(Long agentid, String formdata, String suggestStr) throws Exception {
+    private synchronized void handlePass(Long agentid, JSONObject formdata, String suggestStr) throws Exception {
+        //使用threadLoacl的一个线程独立一个副本及弱引用的特性，来存每个线程独有suggestStr
         threadLocal.set(suggestStr);
-        //表单信息
-        String josnFormData = new String(Base64.decode(formdata), "utf-8");
-        JSONObject jsonObject = JSONUtil.parseObj(josnFormData);
         ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(agentid);
         if (StringUtils.isNotEmpty(actAgenting)) {
             ActDeploymentdetial depDetial = deploymentDetialMapper.selectByPrimaryKey(actAgenting.getNownodeid());
             Integer nodetype = depDetial.getNodetype();
             if (nodetype.equals(NodeTpye.APPROVAL.getType())) {
-                if (depDetial.getExecutionmode() == null || depDetial.getExecutionmode()
-                        .equals(ExecutionMode.COUNTERSIGN.getNum())) {
+                if (depDetial.getExecutionmode().equals(ExecutionMode.COUNTERSIGN.getNum())) {
                     String[] nodeUsers = null;
                     if (depDetial.getNodeuserlist().indexOf(",") > 0)
                         nodeUsers = depDetial.getNodeuserlist().split(",");
@@ -387,29 +384,60 @@ public class ActivityServiceImpl implements ActivityService {
                         agentingExample.createCriteria().andUseidIn(signList).andNownodeidEqualTo(actAgenting.getNownodeid());
                         List<ActAgenting> actAgentings = actAgentingMapper.selectByExample(agentingExample);
                         long notDoingCount = actAgentings.stream()
-                                .filter(others -> others.getAgentingstatus().equals(AgentStatus.NODOING))
+                                .filter(others -> others.getAgentingstatus().equals(AgentStatus.NODOING.getStatus()))
                                 .count();
                         //该审批环节的所有人员都办理完，修改任务的环节状态，并查找下一节点
                         if (notDoingCount == 0)
-                            updateExecutionStatusAndQueryNext(actAgenting, depDetial, jsonObject);
+                            updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
                     } else
-                        updateExecutionStatusAndQueryNext(actAgenting, depDetial, jsonObject);
+                        updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
                 } else if (depDetial.getExecutionmode()
                         .equals(ExecutionMode.COMPETION.getNum())) {
-                    updateExecutionStatusAndQueryNext(actAgenting, depDetial, jsonObject);
+                    //先查看当前环节状态是否已完成，如果已完成则不需要再查找下一环节
+                    if(!checkNodeStatus(actAgenting)){
+                        updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
+                    }
                 }
             }
-            if (nodetype.equals(NodeTpye.COPYER.getType())) {
+            //抄送情况只修改办理人的状态信息
+/*            if (nodetype.equals(NodeTpye.COPYER.getType())) {
                 ActDeploymentdetialExample actDeploymentdetialExample = new ActDeploymentdetialExample();
                 actDeploymentdetialExample.createCriteria()
                         .andDeploymentidEqualTo(depDetial.getDeploymentid())
                         .andNodeversionEqualTo(depDetial.getNodeversion());
                 List<ActDeploymentdetial> actDeploymentdetials = deploymentDetialMapper.selectByExample(actDeploymentdetialExample);
-                queryNextAndSendTask(actDeploymentdetials, depDetial, actAgenting.getTaskid(), jsonObject);
-            }
-            updateAgentingStatus(actAgenting);
+                //判断下一环节是否存在，存在则继续查找，不存在只修改办理状态
+                List<ActDeploymentdetial> copyers = actDeploymentdetials.stream()
+                        .filter(route -> route.getPid().equals(depDetial.getId()))
+                        .collect(Collectors.toList());
+                if (copyers.size() > 0) {
+                    queryNextAndSendTask(actDeploymentdetials, depDetial, actAgenting.getTaskid(), formdata);
+                }
+            }*/
+            /**
+             *  修改办理人状态信息,环节状态信息
+             */
+            updateStatus(actAgenting);
+
         } else
             throw new ActivityException("根据待办人id查询为空,请检查！");
+    }
+
+    /**
+     * 检查环节状态
+     * @param actAgenting
+     * @return
+     */
+    private boolean checkNodeStatus(ActAgenting actAgenting) {
+        Long taskid = actAgenting.getTaskid();
+        Long nownodeid = actAgenting.getNownodeid();
+        ActExecutionTaskExample actExecutionTaskExample=new ActExecutionTaskExample();
+        actExecutionTaskExample.createCriteria().andExecutionidEqualTo(taskid).andDeploymentdetialidEqualTo(nownodeid);
+        List<ActExecutionTask> tasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
+        if (tasks.get(0).getNodestatus().equals(ExectStatus.COMPLETION.getStatus())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -442,15 +470,51 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     /**
-     * //修改办理人状态
+     * //修改办理人状态，任务环节状态
      *
      * @param actAgenting
      */
-    private void updateAgentingStatus(ActAgenting actAgenting) {
+    private void updateStatus(ActAgenting actAgenting) {
         actAgenting.setAgentingstatus(AgentStatus.ISDOING.getStatus());
         actAgenting.setEndtime(OnlyCode.getCurrentTime());
         actAgentingMapper.updateByPrimaryKey(actAgenting);
+
+        /*
+         *判断完成状态分为 “会签”，“竞争”
+         * 1.会签需要判断环节所有人都完成，则环节完成
+         * 2.竞争则只要一个人完成，则环节完成
+         */
+        ActDeploymentdetial deploymentdetial = deploymentDetialMapper.selectByPrimaryKey(actAgenting.getNownodeid());
+        if (deploymentdetial.getExecutionmode().equals(ExecutionMode.COUNTERSIGN.getNum())) {
+            ActAgentingExample actAgentingExample=new ActAgentingExample();
+            actAgentingExample.createCriteria().andNownodeidEqualTo(actAgenting.getNownodeid()).andNodeversionEqualTo(actAgenting.getNodeversion());
+            List<ActAgenting> actAgentings = actAgentingMapper.selectByExample(actAgentingExample);
+            long count = actAgentings.stream()
+                    .filter(f -> f.getAgentingstatus().equals(AgentStatus.NODOING.getStatus()))
+                    .count();
+            if (count==0) {
+                updateTaskNodeStatus(actAgenting);
+            }
+        }
+        if (deploymentdetial.getExecutionmode().equals(ExecutionMode.COMPETION.getNum())) {
+            updateTaskNodeStatus(actAgenting);
+        }
     }
+
+    /**
+     * 修改环节状态
+     * @param actAgenting
+     */
+    private void updateTaskNodeStatus(ActAgenting actAgenting) {
+        //说明环节下的人全部办理完成，则需要修改环节状态为已完成
+        Long taskid = actAgenting.getTaskid();
+        Long nownodeid = actAgenting.getNownodeid();
+        ActExecutionTaskExample actExecutionTaskExample=new ActExecutionTaskExample();
+        actExecutionTaskExample.createCriteria().andExecutionidEqualTo(taskid).andDeploymentdetialidEqualTo(nownodeid);
+        List<ActExecutionTask> tasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
+        actExecutionTaskMapper.updateStatusComplete(tasks.get(0).getId());
+    }
+
 
     /**
      * 判断条件表达式
@@ -568,6 +632,7 @@ public class ActivityServiceImpl implements ActivityService {
         actExecutionTask.setNodename(childDeploy.getNodename());
         actExecutionTask.setNodestatus(ExectStatus.PROCESSING.getStatus());
         actExecutionTask.setNodetype(childDeploy.getNodetype());
+        actExecutionTask.setSendtime(OnlyCode.getCurrentTime());
         actExecutionTaskMapper.insert(actExecutionTask);
         sendHandler(childDeploy,taskId);
     }

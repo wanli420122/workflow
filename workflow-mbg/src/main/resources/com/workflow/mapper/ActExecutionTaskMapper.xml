@@ -246,4 +246,7 @@
   <update id="updateNodeStatus" parameterType="java.lang.Long">
     update act_execution_task set nodestatus=0 where id= #{id,jdbcType=BIGINT}
   </update>
+  <update id="updateStatusComplete" parameterType="java.lang.Long">
+    update act_execution_task set nodestatus=1 where id= #{id,jdbcType=BIGINT}
+  </update>
 </mapper>
