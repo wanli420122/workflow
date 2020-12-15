@@ -393,10 +393,13 @@ public class ActivityServiceImpl implements ActivityService {
                         updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
                 } else if (depDetial.getExecutionmode()
                         .equals(ExecutionMode.COMPETION.getNum())) {
-                    //先查看当前环节状态是否已完成，如果已完成则不需要再查找下一环节
-                    if(!checkNodeStatus(actAgenting)){
-                        updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
-                    }
+                   /*
+                    *“竞争”关系，只要有一人办理，则环节通过，环节中的其他人的待办任务全部删除
+                    */
+                    //删除该环节中的其他人的待办任务
+                    deleteOthersTasks(actAgenting);
+                    //查找下一环节
+                    updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
                 }
             }
             //抄送情况只修改办理人的状态信息
@@ -421,6 +424,19 @@ public class ActivityServiceImpl implements ActivityService {
 
         } else
             throw new ActivityException("根据待办人id查询为空,请检查！");
+    }
+
+    private void deleteOthersTasks(ActAgenting actAgenting) {
+        ActAgentingExample actAgentingExample=new ActAgentingExample();
+        actAgentingExample.createCriteria().andNownodeidEqualTo(actAgenting.getNownodeid())
+                .andNodeversionEqualTo(actAgenting.getNodeversion())
+                .andIdNotEqualTo(actAgenting.getId());
+        List<ActAgenting> actAgentings = actAgentingMapper.selectByExample(actAgentingExample);
+        if (actAgentings.size()>0) {
+            for (int i = 0; i < actAgentings.size(); i++) {
+                actAgentingMapper.deleteByPrimaryKey(actAgentings.get(i).getId());
+            }
+        }
     }
 
     /**
