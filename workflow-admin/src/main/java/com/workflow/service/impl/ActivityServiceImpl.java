@@ -338,7 +338,8 @@ public class ActivityServiceImpl implements ActivityService {
             Long taskid = actAgenting.getTaskid();
             Long nownodeid = actAgenting.getNownodeid();
             deleteNoCompleteNode(taskid,nownodeid,rejectToNode);
-            ActDeploymentdetial deploymentdetial = deploymentDetialMapper.selectByPrimaryKey(Long.parseLong(rejectToNode));
+            ActExecutionTask actExecutionTask = actExecutionTaskMapper.selectByPrimaryKey(Long.parseLong(rejectToNode));
+            ActDeploymentdetial deploymentdetial = deploymentDetialMapper.selectByPrimaryKey(actExecutionTask.getDeploymentdetialid());
             //发送待办
             sendHandler(deploymentdetial,taskid);
         }
@@ -429,7 +430,7 @@ public class ActivityServiceImpl implements ActivityService {
     private void deleteOthersTasks(ActAgenting actAgenting) {
         ActAgentingExample actAgentingExample=new ActAgentingExample();
         actAgentingExample.createCriteria().andNownodeidEqualTo(actAgenting.getNownodeid())
-                .andNodeversionEqualTo(actAgenting.getNodeversion())
+                .andTaskidEqualTo(actAgenting.getTaskid())
                 .andIdNotEqualTo(actAgenting.getId());
         List<ActAgenting> actAgentings = actAgentingMapper.selectByExample(actAgentingExample);
         if (actAgentings.size()>0) {
