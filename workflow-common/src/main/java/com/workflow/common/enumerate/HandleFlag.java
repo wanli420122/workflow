@@ -7,7 +7,8 @@ package com.workflow.common.enumerate;
  */
 public enum HandleFlag {
     PASS(0,"通过"),
-    REJECT(1,"驳回");
+    REJECT(1,"驳回"),
+    CANCEL(2,"撤销");
     private int code;
     private String desc;
 

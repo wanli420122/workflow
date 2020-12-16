@@ -75,7 +75,7 @@ public class WorkFlowController {
             @ApiImplicitParam(paramType = "query", name = "formdata", dataType = "String",
                     required = true, value = "表单数据"),
             @ApiImplicitParam(paramType = "query", name = "flag", dataType = "int",
-                    required = true, value = "办理人标识 0->通过 ，1->驳回"),
+                    required = true, value = "办理人标识 0->通过,1->驳回,2->撤销"),
             @ApiImplicitParam(paramType = "query", name = "rejectToNode", dataType = "String",
                     required = true, value = "驳回到某环节"),
             @ApiImplicitParam(paramType = "query", name = "suggestStr", dataType = "String",

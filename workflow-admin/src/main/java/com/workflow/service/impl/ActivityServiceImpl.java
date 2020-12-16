@@ -1,10 +1,11 @@
 package com.workflow.service.impl;
 
-import cn.hutool.core.codec.Base64;
 import cn.hutool.core.codec.Base64Decoder;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.workflow.common.api.StringUtils;
 import com.workflow.common.enumerate.*;
 import com.workflow.common.uuid.SnowflakeIdGenerator;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.websocket.SendHandler;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +42,9 @@ public class ActivityServiceImpl implements ActivityService {
     private static SnowflakeIdGenerator sfIdGenerator = new SnowflakeIdGenerator();
 
     private static ThreadLocal<String> threadLocal = new ThreadLocal();
+
+    private static final Log logger= LogFactory.get(ActivityServiceImpl.class);
+
 
     /**
      * deployid不为空则为流程升版，原版本对应的流程实例保持不变
@@ -70,9 +73,10 @@ public class ActivityServiceImpl implements ActivityService {
             JSONObject nodeConfig = JSONUtil.parseObj(data.get("nodeConfig"));
             //getChildNodes(nodeConfig, params[0], params[1], 0l);
             getChild(nodeConfig, params[0], params[1], 0l);
-        } else
+        } else {
+            logger.error(new ActivityException("解析data数据为空，请检查！"));
             throw new ActivityException("解析data数据为空，请检查！");
-
+        }
     }
 
     /**
@@ -315,13 +319,60 @@ public class ActivityServiceImpl implements ActivityService {
     public void handleActivity(Long agentid, String formdata, String suggestStr, int flag, String rejectToNode) throws Exception {
         //表单信息
         //String josnFormData = new String(Base64.decode(formdata), "utf-8");
-        JSONObject jsonObject = JSONUtil.parseObj(formdata);
-        if (flag==HandleFlag.PASS.getCode()) {
-            handlePass(agentid, jsonObject, suggestStr);
+        //首先判断任务状态是否正常
+        int taskStatus=checkTaskStatus(agentid);
+        if (ExectStatus.TASKFIAL.getStatus()!=taskStatus) {
+            if (flag==HandleFlag.PASS.getCode()) {
+                handlePass(agentid, formdata, suggestStr);
+            }
+            if (flag== HandleFlag.REJECT.getCode()) {
+                handleReject(agentid,rejectToNode);
+            }
+            if (flag== HandleFlag.CANCEL.getCode()) {
+                handCancel(agentid);
+            }
+        }else{
+            throw new ActivityException("该任务已终止，无法办理");
         }
-        if (flag== HandleFlag.REJECT.getCode()) {
-            handleReject(agentid,rejectToNode);
+    }
+
+    /**
+     * 撤销处理,目前只有审批环节的人员有权限进行撤销操作
+     * 修改任务状态为失败
+     * @param agentid
+     */
+    private void handCancel(Long agentid) {
+        ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(agentid);
+        Long taskid = actAgenting.getTaskid();
+        Long nownodeid = actAgenting.getNownodeid();
+        ActExecutionTaskExample actExecutionTaskExample =new ActExecutionTaskExample();
+        actExecutionTaskExample.createCriteria().andDeploymentdetialidEqualTo(nownodeid).andExecutionidEqualTo(taskid);
+        List<ActExecutionTask> tasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
+        ActExecutionTask actExecutionTask = tasks.get(0);
+        if (!actExecutionTask.getNodetype().equals(NodeTpye.APPROVAL.getType())) {
+            throw new ActivityException("您没有权限撤销！");
         }
+        actAgenting.setAgentingstatus(AgentStatus.CANCEL.getStatus());
+        //更新办理人状态我撤销
+        actAgentingMapper.updateByPrimaryKey(actAgenting);
+        //删除该任务的所有待办任务
+        actAgentingMapper.deleteNoCompleteTask(taskid);
+        //更新当前环节为撤销
+        actExecutionTask.setNodestatus(ExectStatus.TASKFIAL.getStatus());
+        actExecutionTaskMapper.updateByPrimaryKey(actExecutionTask);
+        //更新任务状态为“审核失败”
+        ActExecution execution = actExecutionMapper.selectByPrimaryKey(taskid);
+        execution.setStatus(ExectStatus.TASKFIAL.getStatus());
+        actExecutionMapper.updateByPrimaryKey(execution);
+    }
+    /**
+     * 检查任务状态
+     */
+    private int checkTaskStatus(Long agentid){
+        ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(agentid);
+        Long taskid = actAgenting.getTaskid();
+        ActExecution execution = actExecutionMapper.selectByPrimaryKey(taskid);
+        return execution.getStatus();
     }
 
     /**
@@ -334,13 +385,20 @@ public class ActivityServiceImpl implements ActivityService {
      */
     private void handleReject(Long agentid,String rejectToNode) throws Exception {
         ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(agentid);
+        //抄送人不可驳回
         if (StringUtils.isNotEmpty(actAgenting)) {
-            Long taskid = actAgenting.getTaskid();
-            Long nownodeid = actAgenting.getNownodeid();
-            deleteNoCompleteNode(taskid,nownodeid,rejectToNode);
             ActExecutionTask actExecutionTask = actExecutionTaskMapper.selectByPrimaryKey(Long.parseLong(rejectToNode));
             ActDeploymentdetial deploymentdetial = deploymentDetialMapper.selectByPrimaryKey(actExecutionTask.getDeploymentdetialid());
-            //发送待办
+            Long taskid = actAgenting.getTaskid();
+            Long nownodeid = actAgenting.getNownodeid();
+            ActExecutionTaskExample actExecutionTaskExample =new ActExecutionTaskExample();
+            actExecutionTaskExample.createCriteria().andDeploymentdetialidEqualTo(nownodeid).andExecutionidEqualTo(taskid);
+            List<ActExecutionTask> tasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
+            if (tasks.get(0).getNodetype().equals(NodeTpye.COPYER.getType())) {
+                throw new ActivityException("您没有驳回权限！");
+            }
+            deleteNoCompleteNode(taskid,nownodeid,rejectToNode);
+                       //发送待办
             sendHandler(deploymentdetial,taskid);
         }
     }
@@ -363,9 +421,10 @@ public class ActivityServiceImpl implements ActivityService {
      * @param suggestStr
      * @throws Exception
      */
-    private synchronized void handlePass(Long agentid, JSONObject formdata, String suggestStr) throws Exception {
+    private synchronized void handlePass(Long agentid, String formdata, String suggestStr) throws Exception {
         //使用threadLoacl的一个线程独立一个副本及弱引用的特性，来存每个线程独有suggestStr
         threadLocal.set(suggestStr);
+        JSONObject jsonObject = JSONUtil.parseObj(formdata);
         ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(agentid);
         if (StringUtils.isNotEmpty(actAgenting)) {
             ActDeploymentdetial depDetial = deploymentDetialMapper.selectByPrimaryKey(actAgenting.getNownodeid());
@@ -389,9 +448,9 @@ public class ActivityServiceImpl implements ActivityService {
                                 .count();
                         //该审批环节的所有人员都办理完，修改任务的环节状态，并查找下一节点
                         if (notDoingCount == 0)
-                            updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
+                            updateExecutionStatusAndQueryNext(actAgenting, depDetial, jsonObject);
                     } else
-                        updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
+                        updateExecutionStatusAndQueryNext(actAgenting, depDetial, jsonObject);
                 } else if (depDetial.getExecutionmode()
                         .equals(ExecutionMode.COMPETION.getNum())) {
                    /*
@@ -400,7 +459,7 @@ public class ActivityServiceImpl implements ActivityService {
                     //删除该环节中的其他人的待办任务
                     deleteOthersTasks(actAgenting);
                     //查找下一环节
-                    updateExecutionStatusAndQueryNext(actAgenting, depDetial, formdata);
+                    updateExecutionStatusAndQueryNext(actAgenting, depDetial, jsonObject);
                 }
             }
             //抄送情况只修改办理人的状态信息
@@ -836,8 +895,10 @@ public class ActivityServiceImpl implements ActivityService {
             longs[0] = deployid;
             longs[1] = versionCode;
             return longs;
-        } else
+        } else {
+            logger.error(new ActivityException("根据deployid无法查询对应的流程定义，请检查！"));
             throw new ActivityException("根据deployid无法查询对应的流程定义，请检查！");
+        }
     }
 
 

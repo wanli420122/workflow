@@ -7,8 +7,8 @@ package com.workflow.common.enumerate;
  */
 public enum AgentStatus {
     NODOING(0,"待办"),
-    ISDOING(1,"已办");
-
+    ISDOING(1,"已办"),
+    CANCEL(2,"撤销");
     private int status;
     private String des;
     AgentStatus(int status, String des ){

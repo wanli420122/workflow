@@ -1,6 +1,9 @@
 package com.workflow.service.impl;
 
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.workflow.common.enumerate.AgentStatus;
+import com.workflow.common.enumerate.NodeTpye;
 import com.workflow.common.uuid.SnowflakeIdGenerator;
 import com.workflow.exception.ActivityException;
 import com.workflow.mapper.ActAgentingMapper;
@@ -26,6 +29,8 @@ public class QueryDataServiceImpl implements QueryDataService {
 
     private static final SnowflakeIdGenerator sfIdGenerator = new SnowflakeIdGenerator();
 
+    private static final  Log logger= LogFactory.get(QueryDataServiceImpl.class);
+
     @Autowired
     ActDeploymentMapper actDeploymentMapper;
 
@@ -48,9 +53,10 @@ public class QueryDataServiceImpl implements QueryDataService {
     @Override
     public void updateDeployment(ActDeployment deployid) throws Exception {
         ActDeployment actDeployment = actDeploymentMapper.selectByPrimaryKey(deployid.getId());
-        if (actDeployment==null)
+        if (actDeployment==null) {
+            logger.error(new ActivityException("根据流程定义id无法查询对应数据！"));
             throw new ActivityException("根据流程定义id无法查询对应数据！");
-        else
+        }else
             actDeploymentMapper.updateByPrimaryKey(deployid);
 
     }
@@ -64,9 +70,10 @@ public class QueryDataServiceImpl implements QueryDataService {
     @Override
     public void deleteDeployment(Long deployid) throws Exception {
         ActDeployment actDeployment = actDeploymentMapper.selectByPrimaryKey(deployid);
-        if (actDeployment==null)
+        if (actDeployment==null) {
+            logger.error(new ActivityException("根据流程定义id无法查询对应数据！"));
             throw new ActivityException("根据流程定义id无法查询对应数据！");
-        else
+        }else
             actDeploymentMapper.deleteByPrimaryKey(deployid);
     }
 
@@ -150,6 +157,7 @@ public class QueryDataServiceImpl implements QueryDataService {
             ActExecution execution = actExecutionMapper.selectByPrimaryKey(actAgenting.getTaskid());
             return execution.getStatus();
         }else{
+            logger.error(new ActivityException("agentingid为空，请检查!"));
             throw new ActivityException("agentingid为空，请检查!");
         }
     }
@@ -159,7 +167,7 @@ public class QueryDataServiceImpl implements QueryDataService {
         ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(Long.parseLong(agentingid));
         Long taskid = actAgenting.getTaskid();
         ActExecutionTaskExample actExecutionTaskExample=new ActExecutionTaskExample();
-        actExecutionTaskExample.createCriteria().andExecutionidEqualTo(taskid).andNodestatusEqualTo(1);
+        actExecutionTaskExample.createCriteria().andExecutionidEqualTo(taskid).andNodetypeEqualTo(NodeTpye.APPROVAL.getType());
         List<ActExecutionTask> tasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
         return tasks;
     }
