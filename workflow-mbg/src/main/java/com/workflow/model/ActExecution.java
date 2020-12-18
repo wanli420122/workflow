@@ -11,6 +11,8 @@ public class ActExecution implements Serializable {
 
     private String formid;
 
+    private String formname;
+
     private String multiid;
 
     private String userid;
@@ -45,6 +47,14 @@ public class ActExecution implements Serializable {
 
     public void setFormid(String formid) {
         this.formid = formid;
+    }
+
+    public String getFormname() {
+        return formname;
+    }
+
+    public void setFormname(String formname) {
+        this.formname = formname;
     }
 
     public String getMultiid() {
@@ -96,6 +106,7 @@ public class ActExecution implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", deploymentid=").append(deploymentid);
         sb.append(", formid=").append(formid);
+        sb.append(", formname=").append(formname);
         sb.append(", multiid=").append(multiid);
         sb.append(", userid=").append(userid);
         sb.append(", status=").append(status);

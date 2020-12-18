@@ -1,5 +1,6 @@
 package com.workflow.controller;
 
+import cn.hutool.json.JSONObject;
 import com.workflow.common.api.CommonResult;
 import com.workflow.service.ActivityService;
 import io.swagger.annotations.Api;
@@ -8,9 +9,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.modelmbean.RequiredModelMBean;
+import java.util.Map;
 
 /**
  * 工作流处理controller
@@ -55,11 +58,16 @@ public class WorkFlowController {
             @ApiImplicitParam(paramType = "query", name = "userid", dataType = "String",
                     required = true, value = "用户id")
     })
-    public CommonResult startActivity(@RequestParam(value = "deployid", required = true) Long deployid,
-                                      @RequestParam(value = "formdata", required = true) String formdata,
-                                      @RequestParam(value = "userid", required = true) String userid) {
+    public CommonResult startActivity(
+            @RequestBody Map<String,String> params
+//                                      @RequestParam(value = "deployid", required = false) Long deployid,
+//                                      @RequestParam(value = "formdata", required = true) String formdata,
+//                                      @RequestParam(value = "userid", required = true) String userid
+     ) {
         try {
-            activityService.startActivity(deployid, formdata, userid);
+//            activityService.startActivity(deployid,formdata,userid);
+            activityService.startActivity(Long.parseLong((String)params.get("deployid")) ,
+                    (String)params.get("formdata"), (String)params.get("userid"));
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed(e.getMessage());
@@ -81,12 +89,20 @@ public class WorkFlowController {
             @ApiImplicitParam(paramType = "query", name = "suggestStr", dataType = "String",
                     required = true, value = "办理建议")
     })
-    public CommonResult activityHandle(@RequestParam(value = "agentid", required = true) Long agentid,
-                                       @RequestParam(value = "formdata", required = true) String formdata,
-                                       @RequestParam(value = "flag", required = false) int flag,
-                                       @RequestParam(value = "rejectToNode", required = false) String rejectToNode,
-                                       @RequestParam(value="suggestStr", required=false) String suggestStr){
+    public CommonResult activityHandle(
+            @RequestBody @Validated Map<String,Object> params
+//                                       @RequestParam(value = "agentid", required = true) Long agentid,
+//                                       @RequestParam(value = "formdata", required = true) String formdata,
+//                                       @RequestParam(value = "flag", required = false) int flag,
+//                                       @RequestParam(value = "rejectToNode", required = false) String rejectToNode,
+//                                       @RequestParam(value="suggestStr", required=false) String suggestStr
+    ){
         try {
+            Long agentid= Long.parseLong((String) params.get("agentid"));
+            String formdata = (String) params.get("formdata");
+            int flag =Integer.parseInt((String) params.get("flag"));
+            String rejectToNode = (String) params.get("rejectToNode");
+            String suggestStr =(String) params.get("suggestStr");
             activityService.handleActivity(agentid, formdata,suggestStr,flag,rejectToNode);
         } catch (Exception e) {
             e.printStackTrace();

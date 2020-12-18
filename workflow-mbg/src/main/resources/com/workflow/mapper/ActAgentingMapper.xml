@@ -295,7 +295,9 @@
       a.deploymentid=b.id
       where a.id=aa.nownodeid) as taskname,
       (select userid from act_execution where id=aa.taskid )as userid,
+      (select status from act_execution where id=aa.taskid )as taskstatus,
       (select formid from act_execution where id=aa.taskid ) as formid,
+      (select formname from act_execution where id=aa.taskid ) as formname,
       aa.starttime,
       aa.endtime
       FROM act_agenting aa where aa.useid=#{userid,jdbcType=VARCHAR}
@@ -308,7 +310,9 @@
       a.deploymentid=b.id
       where a.id=aa.nownodeid) as taskname,
       (select userid from act_execution where id=aa.taskid )as userid,
+      (select status from act_execution where id=aa.taskid )as taskstatus,
       (select formid from act_execution where id=aa.taskid ) as formid,
+      (select formname from act_execution where id=aa.taskid ) as formname,
       aa.starttime,
       aa.endtime
       FROM act_agenting aa where aa.agentingstatus=#{flag,jdbcType=VARCHAR}

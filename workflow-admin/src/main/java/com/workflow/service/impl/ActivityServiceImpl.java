@@ -1,5 +1,6 @@
 package com.workflow.service.impl;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.codec.Base64Decoder;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
@@ -145,10 +146,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public void startActivity(Long deployid, String formData, String userid) throws Exception {
         //表单信息
-       // String josnFormData = new String(Base64.decode(formData), "utf-8");
-        JSONObject jsonObject = JSONUtil.parseObj(formData);
+        String josnFormData = new String(Base64.decode(formData),"UTF-8");
+        JSONObject jsonObject = JSONUtil.parseObj(josnFormData);
         //保存任务，返回任务id
-        long taskId = saveExecutionSimple(deployid, (String) jsonObject.get("formid"), userid);
+        long taskId = saveExecutionSimple(deployid, jsonObject, userid);
         //查找流程实例，开始发送待办任务
         ActDeployment actDeployment = deploymentMapper.selectByPrimaryKey(deployid);
         ActDeploymentdetialExample detialExample = new ActDeploymentdetialExample();
@@ -423,8 +424,9 @@ public class ActivityServiceImpl implements ActivityService {
      */
     private synchronized void handlePass(Long agentid, String formdata, String suggestStr) throws Exception {
         //使用threadLoacl的一个线程独立一个副本及弱引用的特性，来存每个线程独有suggestStr
-        threadLocal.set(suggestStr);
-        JSONObject jsonObject = JSONUtil.parseObj(formdata);
+//        threadLocal.set(suggestStr);
+        String jsonFormdata=new String(Base64.decode(formdata),"UTF-8");
+        JSONObject jsonObject = JSONUtil.parseObj(jsonFormdata);
         ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(agentid);
         if (StringUtils.isNotEmpty(actAgenting)) {
             ActDeploymentdetial depDetial = deploymentDetialMapper.selectByPrimaryKey(actAgenting.getNownodeid());
@@ -480,7 +482,7 @@ public class ActivityServiceImpl implements ActivityService {
             /**
              *  修改办理人状态信息,环节状态信息
              */
-            updateStatus(actAgenting);
+            updateStatus(actAgenting,suggestStr);
 
         } else
             throw new ActivityException("根据待办人id查询为空,请检查！");
@@ -550,9 +552,10 @@ public class ActivityServiceImpl implements ActivityService {
      *
      * @param actAgenting
      */
-    private void updateStatus(ActAgenting actAgenting) {
+    private void updateStatus(ActAgenting actAgenting,String suggestStr) {
         actAgenting.setAgentingstatus(AgentStatus.ISDOING.getStatus());
         actAgenting.setEndtime(OnlyCode.getCurrentTime());
+        actAgenting.setSuggeststr(suggestStr);
         actAgentingMapper.updateByPrimaryKey(actAgenting);
 
         /*
@@ -743,7 +746,7 @@ public class ActivityServiceImpl implements ActivityService {
                     actAgenting.setAgentingstatus(AgentStatus.NODOING.getStatus());
                     actAgenting.setStarttime(OnlyCode.getCurrentTime());
                     actAgenting.setNownodeid(childDeploy.getId());
-                    actAgenting.setSuggeststr(threadLocal.get());
+//                    actAgenting.setSuggeststr(threadLocal.get());
                     actAgenting.setNodeversion(childDeploy.getNodeversion());
                     actAgentingMapper.insert(actAgenting);
                 }
@@ -755,15 +758,16 @@ public class ActivityServiceImpl implements ActivityService {
      * 保存任务
      *
      * @param deployid
-     * @param formid
+     * @param jsonObject
      * @param userid
      * @return
      */
-    public long saveExecutionSimple(Long deployid, String formid, String userid) {
+    public long saveExecutionSimple(Long deployid, JSONObject jsonObject, String userid) {
         ActExecution execution = new ActExecution();
         long id = sfIdGenerator.nextId();
         execution.setDeploymentid(deployid);
-        execution.setFormid(formid);
+        execution.setFormid((String) jsonObject.get("formid"));
+        execution.setFormname((String) jsonObject.get("formname"));
         execution.setUserid(userid);
         execution.setId(id);
         execution.setStarttime(OnlyCode.getCurrentTime());

@@ -295,6 +295,76 @@ public class ActExecutionExample {
             return (Criteria) this;
         }
 
+        public Criteria andFormnameIsNull() {
+            addCriterion("formname is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameIsNotNull() {
+            addCriterion("formname is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameEqualTo(String value) {
+            addCriterion("formname =", value, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameNotEqualTo(String value) {
+            addCriterion("formname <>", value, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameGreaterThan(String value) {
+            addCriterion("formname >", value, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameGreaterThanOrEqualTo(String value) {
+            addCriterion("formname >=", value, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameLessThan(String value) {
+            addCriterion("formname <", value, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameLessThanOrEqualTo(String value) {
+            addCriterion("formname <=", value, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameLike(String value) {
+            addCriterion("formname like", value, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameNotLike(String value) {
+            addCriterion("formname not like", value, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameIn(List<String> values) {
+            addCriterion("formname in", values, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameNotIn(List<String> values) {
+            addCriterion("formname not in", values, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameBetween(String value1, String value2) {
+            addCriterion("formname between", value1, value2, "formname");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormnameNotBetween(String value1, String value2) {
+            addCriterion("formname not between", value1, value2, "formname");
+            return (Criteria) this;
+        }
+
         public Criteria andMultiidIsNull() {
             addCriterion("multiid is null");
             return (Criteria) this;

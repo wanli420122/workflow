@@ -2,6 +2,7 @@ package com.workflow.service;
 
 import com.workflow.model.ActAgenting;
 import com.workflow.model.ActDeployment;
+import com.workflow.model.ActExecution;
 import com.workflow.model.ActExecutionTask;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface QueryDataService {
     int queryTaskStatus(String agentingid);
 
     List<ActExecutionTask> queryCanRejectNode(String agentingid)throws Exception;
+
+    List<ActExecution> querySponsorTasks(String userid)throws Exception;
+
+    List<Map> queryDetailByTaskid(String taskid) throws Exception;
 }

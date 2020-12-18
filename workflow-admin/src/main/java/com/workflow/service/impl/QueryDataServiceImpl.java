@@ -98,7 +98,7 @@ public class QueryDataServiceImpl implements QueryDataService {
             ActExecutionTaskExample actExecutionTaskExample=new ActExecutionTaskExample();
             actExecutionTaskExample.setOrderByClause("id");
             actExecutionTaskExample.createCriteria().andExecutionidEqualTo(actAgenting.getTaskid())
-                    .andNodetypeNotEqualTo(4);
+                    .andNodetypeNotEqualTo(NodeTpye.ROUTE.getType());
             List<ActExecutionTask> actExecutionTasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
             ActExecution execution = actExecutionMapper.selectByPrimaryKey(actAgenting.getTaskid());
             putStartNode(nodes,execution);
@@ -170,5 +170,64 @@ public class QueryDataServiceImpl implements QueryDataService {
         actExecutionTaskExample.createCriteria().andExecutionidEqualTo(taskid).andNodetypeEqualTo(NodeTpye.APPROVAL.getType());
         List<ActExecutionTask> tasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
         return tasks;
+    }
+
+    @Override
+    public List<ActExecution> querySponsorTasks(String userid) throws Exception {
+        //sa查询所有
+        if (userid.equals("sa")) {
+            ActExecutionExample actExecutionExample=new ActExecutionExample();
+            actExecutionExample.createCriteria();
+            List<ActExecution> actExecutions = actExecutionMapper.selectByExample(actExecutionExample);
+            return actExecutions;
+        }
+        ActExecutionExample actExecutionExample=new ActExecutionExample();
+        actExecutionExample.createCriteria().andUseridEqualTo(userid);
+        List<ActExecution> actExecutions = actExecutionMapper.selectByExample(actExecutionExample);
+        return actExecutions;
+    }
+
+    @Override
+    public List<Map> queryDetailByTaskid(String taskid) throws Exception {
+        {
+            List<Map> nodes=new ArrayList<>();
+//            if (!StringUtils.isEmpty(taskid)) {
+//                ActAgenting actAgenting = actAgentingMapper.selectByPrimaryKey(Long.parseLong(agentingid));
+                ActExecutionTaskExample actExecutionTaskExample=new ActExecutionTaskExample();
+                actExecutionTaskExample.setOrderByClause("id");
+                actExecutionTaskExample.createCriteria().andExecutionidEqualTo(Long.parseLong(taskid))
+                        .andNodetypeNotEqualTo(NodeTpye.ROUTE.getType());
+                List<ActExecutionTask> actExecutionTasks = actExecutionTaskMapper.selectByExample(actExecutionTaskExample);
+                ActExecution execution = actExecutionMapper.selectByPrimaryKey(Long.parseLong(taskid));
+                putStartNode(nodes,execution);
+                for (int i = 0; i < actExecutionTasks.size(); i++) {
+                    Map<String,Object> m=new HashMap<>();
+                    List<Map> actlists=new ArrayList<>();
+                    ActAgentingExample actAgentingExample=new ActAgentingExample();
+                    actAgentingExample.createCriteria().andTaskidEqualTo(actExecutionTasks.get(i).getExecutionid())
+                            .andNownodeidEqualTo(actExecutionTasks.get(i).getDeploymentdetialid());
+                    List<ActAgenting> actAgentings = actAgentingMapper.selectByExample(actAgentingExample);
+                    ActExecutionTask tasks=actExecutionTasks.get(i);
+                    m.put("nodeName",tasks.getNodename());
+                    m.put("nodeStatus",tasks.getNodestatus());
+                    m.put("nodeType",tasks.getNodetype());
+                    m.put("sendTime",tasks.getSendtime());
+                    for (int j = 0; j <actAgentings.size() ; j++) {
+                        ActAgenting agenting=actAgentings.get(j);
+                        Map<String,Object> amap=new HashMap<>();
+                        amap.put("userid",agenting.getUseid());
+                        amap.put("agentingStatus",agenting.getAgentingstatus());
+                        amap.put("agentingSign",agenting.getAgentingsign());
+                        amap.put("startTime",agenting.getStarttime());
+                        amap.put("endTime",agenting.getEndtime());
+                        amap.put("suggestStr",agenting.getSuggeststr());
+                        actlists.add(amap);
+                    }
+                    m.put("nodeDetails",actlists);
+                    nodes.add(m);
+                }
+//            }
+            return nodes;
+        }
     }
 }

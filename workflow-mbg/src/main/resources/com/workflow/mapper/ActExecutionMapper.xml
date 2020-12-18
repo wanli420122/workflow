@@ -5,6 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="deploymentid" jdbcType="BIGINT" property="deploymentid" />
     <result column="formid" jdbcType="VARCHAR" property="formid" />
+    <result column="formname" jdbcType="VARCHAR" property="formname" />
     <result column="multiid" jdbcType="VARCHAR" property="multiid" />
     <result column="userid" jdbcType="VARCHAR" property="userid" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, deploymentid, formid, multiid, userid, status, starttime, endtime
+    id, deploymentid, formid, formname, multiid, userid, status, starttime, endtime
   </sql>
   <select id="selectByExample" parameterType="com.workflow.model.ActExecutionExample" resultMap="BaseResultMap">
     select
@@ -104,11 +105,13 @@
   </delete>
   <insert id="insert" parameterType="com.workflow.model.ActExecution">
     insert into act_execution (id, deploymentid, formid, 
-      multiid, userid, status, 
-      starttime, endtime)
+      formname, multiid, userid, 
+      status, starttime, endtime
+      )
     values (#{id,jdbcType=BIGINT}, #{deploymentid,jdbcType=BIGINT}, #{formid,jdbcType=VARCHAR}, 
-      #{multiid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP})
+      #{formname,jdbcType=VARCHAR}, #{multiid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.workflow.model.ActExecution">
     insert into act_execution
@@ -121,6 +124,9 @@
       </if>
       <if test="formid != null">
         formid,
+      </if>
+      <if test="formname != null">
+        formname,
       </if>
       <if test="multiid != null">
         multiid,
@@ -147,6 +153,9 @@
       </if>
       <if test="formid != null">
         #{formid,jdbcType=VARCHAR},
+      </if>
+      <if test="formname != null">
+        #{formname,jdbcType=VARCHAR},
       </if>
       <if test="multiid != null">
         #{multiid,jdbcType=VARCHAR},
@@ -183,6 +192,9 @@
       <if test="record.formid != null">
         formid = #{record.formid,jdbcType=VARCHAR},
       </if>
+      <if test="record.formname != null">
+        formname = #{record.formname,jdbcType=VARCHAR},
+      </if>
       <if test="record.multiid != null">
         multiid = #{record.multiid,jdbcType=VARCHAR},
       </if>
@@ -208,6 +220,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       deploymentid = #{record.deploymentid,jdbcType=BIGINT},
       formid = #{record.formid,jdbcType=VARCHAR},
+      formname = #{record.formname,jdbcType=VARCHAR},
       multiid = #{record.multiid,jdbcType=VARCHAR},
       userid = #{record.userid,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
@@ -225,6 +238,9 @@
       </if>
       <if test="formid != null">
         formid = #{formid,jdbcType=VARCHAR},
+      </if>
+      <if test="formname != null">
+        formname = #{formname,jdbcType=VARCHAR},
       </if>
       <if test="multiid != null">
         multiid = #{multiid,jdbcType=VARCHAR},
@@ -248,6 +264,7 @@
     update act_execution
     set deploymentid = #{deploymentid,jdbcType=BIGINT},
       formid = #{formid,jdbcType=VARCHAR},
+      formname = #{formname,jdbcType=VARCHAR},
       multiid = #{multiid,jdbcType=VARCHAR},
       userid = #{userid,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},

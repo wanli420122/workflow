@@ -3,6 +3,7 @@ package com.workflow.controller;
 import com.workflow.common.api.CommonResult;
 import com.workflow.model.ActAgenting;
 import com.workflow.model.ActDeployment;
+import com.workflow.model.ActExecution;
 import com.workflow.model.ActExecutionTask;
 import com.workflow.service.QueryDataService;
 import io.swagger.annotations.Api;
@@ -156,4 +157,34 @@ public class QueryDataController {
         }
     }
 
+    @GetMapping("/querySponsorTasks")
+    @ApiOperation(value = "查询'我发起的任务'")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "userid", dataType = "String",
+                    required = true, value = "用户id  (传sa查所有)")
+    })
+    public CommonResult querySponsorTasks(@RequestParam(value = "userid", required = true) String userid){
+        try {
+            List<ActExecution> tasks = queryDataService.querySponsorTasks(userid);
+            return CommonResult.success(tasks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+    @GetMapping(value = "/queryDetailByTaskid")
+    @ApiOperation(value = "根据任务id查询该任务执行明细")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "taskid", dataType = "taskid",
+                    required = true, value = "任务id")
+    })
+    public CommonResult queryDetailByTaskid(@RequestParam(value = "taskid", required = true) String taskid){
+        try {
+            List<Map> detail = queryDataService.queryDetailByTaskid(taskid);
+            return CommonResult.success(detail);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommonResult.failed(e.getMessage());
+        }
+    }
 }
